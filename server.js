@@ -26,8 +26,9 @@ app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'"]
-  }
+    scriptSrc: ["'self'"]
+  },
+  browserSniff: false
 }))
 //Index page (static HTML)
 
