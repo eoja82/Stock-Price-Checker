@@ -29,9 +29,12 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(function (req, res){
     var json;
-    var stock = req.query.stock; //get one stock price
-    var stock1of2 = req.query.stock1of2;  //compare stock prices
-    var stock2of2 = req.query.stock2of2;
+    var stock1 = req.query.stock1;  
+    var stock2 = req.query.stock2; //if stock2 compare stock prices
+    
+    var getStockPrice = (stock) => {
+      var url = 
+    };
     
       
     });
