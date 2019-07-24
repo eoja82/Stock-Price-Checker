@@ -21,7 +21,9 @@ module.exports = function (app) {
     stock: String,
     price: Number,
     ip: [String],
-    likes: Number
+    likes: {
+      type: Number,
+      default: 0}
   });
   
   var Stock = mongoose.model("Stock", stockSchema);
@@ -34,6 +36,7 @@ module.exports = function (app) {
     var stock2 = req.query.stock2; //if stock2 compare stock prices
     stock2.toUppercase();
     var like = req.query.like ? 1 : 0;
+    var ip = req.ip;
     var price;
     
     
@@ -50,8 +53,10 @@ module.exports = function (app) {
     
     if (!stock2) {  //not comparing stocks
       getStockPrice(stock1);
-      price = json
-    }
+      price = json[1]["4. close"];
+      Stock
+      
+    }  //else
     
       
     });
