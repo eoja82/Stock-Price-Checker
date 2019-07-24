@@ -10,8 +10,10 @@
 
 var expect = require('chai').expect;
 var MongoClient = require('mongodb');
-
-const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
+var shortid  = require("shortid");
+var mongoose    = require('mongoose');
+//const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
+mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
 
 module.exports = function (app) {
 
