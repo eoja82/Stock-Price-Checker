@@ -51,14 +51,28 @@ module.exports = function (app) {
       };
     };
     
+    var addNewStock = (newStock) => {
+      var newStock = new Stock({stock: newStock, price: price, likes: 0});
+      console.log(newStock);
+      newStock.save( (err, doc) => {
+        if (err) { console.log(err); }
+        else {
+          
+        }
+      });
+    };
+    
     if (!stock2) {  //not comparing stocks
       getStockPrice(stock1);
-      price = json[1]["4. close"];
+      price = json[1][0]["4. close"];
       Stock.find({stock: stock1}, function(err, doc) {
-        
+        if (err) { console.log(err); }
+        else if (!doc) {
+          
+        }
       });
       
-    }  
+    }  //else
     
       
     });
