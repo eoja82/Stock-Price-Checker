@@ -52,12 +52,12 @@ module.exports = function (app) {
     };
     
     var addNewStock = (newStock) => {
-      var newStock = new Stock({stock: newStock, price: price, likes: 0});
+      var newStock = new Stock({stock: newStock, price: price, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
         else {
-          
+          res.json({"stock": doc.stock, "price": doc.price, "likes": doc.likes})
         }
       });
     };
@@ -68,6 +68,8 @@ module.exports = function (app) {
       Stock.find({stock: stock1}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) {
+          addNewStock(stock1);
+        } else {
           
         }
       });
