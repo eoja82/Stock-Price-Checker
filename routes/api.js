@@ -32,9 +32,9 @@ module.exports = function (app) {
     .get(function (req, res){
     var json;
     var stock1 = req.query.stock1; 
-    stock1.toUpperCase;
+    stock1.toUpperCase();
     var stock2 = req.query.stock2; //if stock2 compare stock prices
-    stock2.toUppercase();
+    //stock2.toUppercase();
     var like = req.query.like ? 1 : 0;
     var ip = like ? req.ip : null;
     var price;
@@ -43,7 +43,7 @@ module.exports = function (app) {
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      req=new XMLHttpRequest();
+      req = new XMLHttpRequest();
       req.open("GET", url, true);
       req.send();
       req.onload=function(){
