@@ -33,6 +33,7 @@ module.exports = function (app) {
     stock1.toUpperCase;
     var stock2 = req.query.stock2; //if stock2 compare stock prices
     stock2.toUppercase();
+    var like = req.query.like ? 1 : 0;
     var price;
     
     
@@ -46,6 +47,11 @@ module.exports = function (app) {
   	    json=JSON.parse(req.responseText);
       };
     };
+    
+    if (!stock2) {  //not comparing stocks
+      getStockPrice(stock1);
+      price = json
+    }
     
       
     });
