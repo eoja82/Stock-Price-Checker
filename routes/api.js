@@ -35,8 +35,8 @@ module.exports = function (app) {
     stock1.toUpperCase;
     var stock2 = req.query.stock2; //if stock2 compare stock prices
     stock2.toUppercase();
-    var like = req.query.like ? 1 : 0;
-    var ip = req.ip;
+    var like = req.query.like ? true : false;
+    var ip = like ? req.ip : null;
     var price;
     
     
@@ -54,7 +54,7 @@ module.exports = function (app) {
     if (!stock2) {  //not comparing stocks
       getStockPrice(stock1);
       price = json[1]["4. close"];
-      Stock
+      Stock.findOneAndUpdate({stock: stock1}, {price: price, ip: {$push {ip}}}, {upsert: true, new: true})
       
     }  //else
     
