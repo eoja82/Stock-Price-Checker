@@ -16,6 +16,13 @@ var mongoose    = require('mongoose');
 mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
 
 module.exports = function (app) {
+  
+  var stockSchema = new mongoose.schema({
+    stock: String,
+    price: Number,
+    ip: [String],
+    likes: Number
+  })
 
   app.route('/api/stock-prices')
     .get(function (req, res){
