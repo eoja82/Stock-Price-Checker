@@ -9,6 +9,7 @@ var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 var helmet            = require('helmet');
+var csp               = require('helmet-csp');
 
 var app = express();
 
@@ -22,6 +23,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(helmet.noCache());
 app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
+app.use(csp({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'"]
+  }
+}))
 //Index page (static HTML)
 
 mongoose.connect(process.env.DATABASE, {useNewUrlParser: true},
