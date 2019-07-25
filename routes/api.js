@@ -50,6 +50,7 @@ module.exports = function (app) {
       req.send();
       req.onload=function(){
   	    json=JSON.parse(req.responseText);
+        console.log(json);
       };
     };
     
