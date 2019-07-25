@@ -45,15 +45,15 @@ module.exports = function (app) {
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+      
       req = new XMLHttpRequest();
       req.open("GET", url, true);
       req.send();
       req.onload=function(){
   	    json=JSON.parse(req.responseText);
-        console.log(json);
       };
     };
-    
+   
     var addNewStock = (newStock) => {
       var newStock = new Stock({stock: newStock, price: price, likes: like});
       console.log(newStock);
