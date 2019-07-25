@@ -17,7 +17,8 @@
 		"zombie": "^5.0.5",
 		"helmet": "^3.1.0",
     "mongoose": "^5.6.2",
-    "shortid": "^2.2.6"
+    "shortid": "^2.2.6",
+    "xmlhttprequest": 
 	},
 	"engines": {
 		"node": "4.4.3"
