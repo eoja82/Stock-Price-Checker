@@ -44,11 +44,11 @@ module.exports = function (app) {
     
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
-                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+                + stock + "&interval=60min&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
-          data = JSON.parse(body);
+          data = body;
           console.log(data); 
         }
       })
