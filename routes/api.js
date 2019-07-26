@@ -37,32 +37,25 @@ module.exports = function (app) {
     var stock2 = req.query.stock2; //if stock2 compare stock prices
     if (stock2) { stock2.toUpperCase();}
     var like = req.query.like ? 1 : 0;
+    console.log("like " + like)
     var ip = like ? req.ip : null;
     console.log("ip is " + ip);
-    var data;
-    var stock1Price;
-    var stock2Price;
-     
+    var stockPrice;     
     
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
-        else if (!stock2) {
-          stock1Price = body["Global Quote"]["05. price"]
-          console.log("stock1Price = " + stock1Price);
-        } else {
-          stock1Price = body["Global Quote"]["05. price"]
-          console.log("stock1Price = " + stock1Price);
-          getStockPrice(stock2);
-        }
+        else {
+          stockPrice = body["Global Quote"]["05. price"]
+          console.log("stockPrice = " + stockPrice);
+        } 
       })
-      
     };
    
     var addNewStock = (newStock) => {
-      var newStock = new Stock({stock: newStock, price: price, likes: like});
+      var newStock = new Stock({stock: newStock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
@@ -71,8 +64,8 @@ module.exports = function (app) {
         }
       });
     };
-   
-    if (!stock2) {  //not comparing stocks
+    
+    if (stock2) {  //not comparing stocks
       getStockPrice(stock1);
       Stock.find({stock: stock1}, function(err, doc) {
         if (err) { console.log(err); }
