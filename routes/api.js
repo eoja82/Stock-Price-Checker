@@ -35,9 +35,10 @@ module.exports = function (app) {
     var stock1 = req.query.stock1; 
     stock1.toUpperCase();
     var stock2 = req.query.stock2; //if stock2 compare stock prices
-    stock2.toUppercase();
+    if (stock2) { stock2.toUpperCase();}
     var like = req.query.like ? 1 : 0;
     var ip = like ? req.ip : null;
+    console.log("ip is " + ip);
     var data;
     var stock1Price;
     var stock2Price;
