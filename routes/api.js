@@ -46,19 +46,19 @@ module.exports = function (app) {
     var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      await request(url, {json: true}, function(err, res, body) {
+      request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
-          console.log("stockPrice = " + body["Global Quote"]["05. price"]);
+          console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           return body["Global Quote"]["05. price"];
           
         } 
       })
     };
    
-    var addNewStock = async (newStock) => {
-      var stockPrice = await getStockPrice(newStock);
-      var newStock = await new Stock({stock: newStock, price: stockPrice, likes: like});
+    var addNewStock = async (stock) => {
+      var stockPrice = await getStockPrice(stock);
+      var newStock = await new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
@@ -90,18 +90,18 @@ module.exports = function (app) {
     
     async function handleStock1(stock1) {
       if (stock1) {
-      if (ip) { //if liked
+      if (ip) {   // like is checked
         Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock1);
+            addNewStock(stock1); //not in db, add new
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            updateStockPriceAndLikes(stock1);
+            updateStockPriceAndLikes(stock1);   //and push ip to db
           } else {
             updateStockPrice(stock1);
           }
         })
-      } else if (!ip) {
+      } else if (!ip) {   //like is not checked
         Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
