@@ -47,7 +47,10 @@ module.exports = function (app) {
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
-        else {console.log(body["Time Series"]); }
+        else {
+          data = JSON.parse(body);
+          console.log(data); 
+        }
       })
       
     };
