@@ -40,7 +40,7 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-     var stockPrice;   
+    var stockPrice;    
     
     var getStockPrice = async (stock) => {
       
@@ -50,13 +50,13 @@ module.exports = function (app) {
         if (err) { return console.log(err); }
         else {
           console.log("stockPrice = " + stockPrice);
-          stockPrice = body["Global Quote"]["05. price"];
+          return body["Global Quote"]["05. price"];
         } 
       })
     };
    
     var addNewStock = async (newStock) => {
-      await getStockPrice(newStock);
+     await getStockPrice(newStock);
       var newStock = new Stock({stock: newStock, price: stockPrice, likes: like, ip: ip});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -68,7 +68,7 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = async (stock) => {
-      await getStockPrice(stock);
+     // await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -78,7 +78,7 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = async (stock) => {
-      await getStockPrice(stock);
+     // await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -99,6 +99,15 @@ module.exports = function (app) {
             updateStockPrice(stock1);
           }
         })
+      } else if (!ip) {
+        Stock.findOne({stock: stock1}, function(err, doc) {
+          if (err) { console.log(err); }
+          else if (!doc) {
+            addNewStock(stock1);
+          } else {
+            updateStockPrice(stock1);
+          }
+        });
       }
     };
     
@@ -114,6 +123,15 @@ module.exports = function (app) {
             updateStockPrice(stock2);
           }
         })
+      } else if (!ip) {
+        Stock.findOne({stock: stock2}, function(err, doc) {
+          if (err) { console.log(err); }
+          else if (!doc) {
+            addNewStock(stock1);
+          } else {
+            updateStockPrice(stock1);
+          }
+        });
       }
     };
     
