@@ -32,7 +32,7 @@ module.exports = function (app) {
 
   app.route('/api/stock-prices')
     .get(function (req, res){
-    //var json;
+    var json;
     var stock1 = req.query.stock1; 
     stock1.toUpperCase();
     var stock2 = req.query.stock2; //if stock2 compare stock prices
@@ -75,8 +75,8 @@ module.exports = function (app) {
       });
       
     }  //else
-    
+    */
       
-    });*/
+    });
     
 };
