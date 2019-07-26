@@ -21,7 +21,7 @@ module.exports = function (app) {
   
   var stockSchema = new mongoose.Schema({
     stock: String,
-    price: Number,
+    price: String,
     ip: [String],
     likes: {
       type: Number,
@@ -37,9 +37,9 @@ module.exports = function (app) {
     var stock2 = req.query.stock2; //if stock2 compare stock prices
     if (stock2) { stock2.toUpperCase();}
     var like = req.query.like ? 1 : 0;
-    console.log("like " + like)
+    //console.log("like " + like)
     var ip = like ? req.ip : null;
-    console.log("ip is " + ip);
+    //console.log("ip is " + ip);
     var stockPrice;     
     
     var getStockPrice = (stock) => {
