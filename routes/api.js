@@ -41,8 +41,8 @@ module.exports = function (app) {
     var ip = like ? req.ip : null;
     
     var data;
-    var price = data;
-    console.log(price); 
+    var price;
+     
     
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
@@ -51,7 +51,9 @@ module.exports = function (app) {
         if (err) { return console.log(err); }
         else {
           data = body;
-          
+          //console.log(data);
+          price = data["Global Quote"]["05. price"]
+          console.log(price)
         }
       })
       
