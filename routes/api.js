@@ -31,16 +31,15 @@ module.exports = function (app) {
 
   app.route('/api/stock-prices')
     .get(function (req, res){
-    var json;
     var stock1 = req.query.stock1; 
     stock1.toUpperCase();
     var stock2 = req.query.stock2; //if stock2 compare stock prices
-    //stock2.toUppercase();
+    stock2.toUppercase();
     var like = req.query.like ? 1 : 0;
     var ip = like ? req.ip : null;
-    
     var data;
-    var price;
+    var stock1Price;
+    var stock2Price;
      
     
     var getStockPrice = (stock) => {
@@ -48,11 +47,13 @@ module.exports = function (app) {
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
-        else {
-          //data = body;
-          //console.log(data);
-          price = body["Global Quote"]["05. price"]
-          console.log(price)
+        else if (!stock2) {
+          stock1Price = body["Global Quote"]["05. price"]
+          console.log("stock1Price = " + stock1Price);
+        } else {
+          stock1Price = body["Global Quote"]["05. price"]
+          console.log("stock1Price = " + stock1Price);
+          getStockPrice(stock2);
         }
       })
       
