@@ -8,7 +8,7 @@ dependencies:
   mocha: 3.5.3
   mongodb: 3.2.7
   mongoose: 5.6.6
-  node-fetch: 2.6.0
+  request: 2.88.0
   shortid: 2.2.14
   zombie: 5.0.8
 packages:
@@ -1067,12 +1067,6 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-0L9FvHG3nfnnmaEQPjT9xhfN4ISk0A8/2j4M37Np4mcDesJjHgEUfgPhdCyZuFI954tjokaIj/A3NdpFNdEh4Q==
-  /node-fetch/2.6.0:
-    dev: false
-    engines:
-      node: 4.x || >=6.0.0
-    resolution:
-      integrity: sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
   /nwmatcher/1.4.4:
     dev: false
     resolution:
@@ -1622,6 +1616,6 @@ specifiers:
   mocha: ^3.2.0
   mongodb: ^3.2.7
   mongoose: ^5.6.2
-  node-fetch: ^2.6.0
+  request: ^2.88.0
   shortid: ^2.2.6
   zombie: ^5.0.5

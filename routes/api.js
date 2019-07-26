@@ -12,7 +12,7 @@ var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 var shortid  = require("shortid");
 var mongoose    = require('mongoose');
-var fetch = require("node-fetch");
+var request = require("request");
 //var xhr = new XMLHttpRequest();
 //const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
@@ -45,9 +45,10 @@ module.exports = function (app) {
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      fetch(url)
-        .then(res => data = JSON.parse(res.json))
-        .then(console.log(data));
+      request(url, {json: true}, function(err, res, body) {
+        if (err) { return console.log(err); }
+        else {console.log(body["Time Series"]["4. close"]); }
+      })
       
     };
    
