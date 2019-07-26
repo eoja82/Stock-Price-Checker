@@ -55,7 +55,7 @@ module.exports = function (app) {
     };
    
     var addNewStock = (newStock) => {
-      var newStock = new Stock({stock: newStock, price: stockPrice, likes: like});
+      var newStock = new Stock({stock: newStock, price: stockPrice, likes: like, ip: ip});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
@@ -65,13 +65,19 @@ module.exports = function (app) {
       });
     };
     
+    var updateStockPriceAndLikes = (stock) => {
+      Stock.findOneAndUpdate(stock, {$inc: {likes: like}})
+    };
+    
     if (stock1) {
       getStockPrice(stock1);
       if (ip) { //if liked
         Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
-          else if () {
-            
+          else if (!doc) {
+            addNewStock(stock1);
+          } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
+            updateStockPriceAndLikes(stock1);
           }
         })
       }
