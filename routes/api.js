@@ -12,7 +12,7 @@ var expect = require('chai').expect;
 var MongoClient = require('mongodb');
 var shortid  = require("shortid");
 var mongoose    = require('mongoose');
-var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+var fetch = require("node-fetch");
 //var xhr = new XMLHttpRequest();
 //const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
@@ -32,7 +32,7 @@ module.exports = function (app) {
 
   app.route('/api/stock-prices')
     .get(function (req, res){
-    var json;
+    //var json;
     var stock1 = req.query.stock1; 
     stock1.toUpperCase();
     var stock2 = req.query.stock2; //if stock2 compare stock prices
@@ -45,13 +45,10 @@ module.exports = function (app) {
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+      fetch(url)
+        .then(res => res.json)
+        .then(console.log(json));
       
-      req = new XMLHttpRequest();
-      req.open("GET", url, true);
-      req.send();
-      req.onload=function(){
-  	    json=JSON.parse(req.responseText);
-      };
     };
    
     var addNewStock = (newStock) => {
@@ -64,8 +61,8 @@ module.exports = function (app) {
         }
       });
     };
-    
-    if (!stock2) {  //not comparing stocks
+   getStockPrice(stock1);
+    /*if (!stock2) {  //not comparing stocks
       getStockPrice(stock1);
       price = json[1][0]["4. close"];
       Stock.find({stock: stock1}, function(err, doc) {
@@ -80,6 +77,6 @@ module.exports = function (app) {
     }  //else
     
       
-    });
+    });*/
     
 };
