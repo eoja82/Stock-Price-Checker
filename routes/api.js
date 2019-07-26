@@ -49,13 +49,14 @@ module.exports = function (app) {
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
-          return stockPrice = body["Global Quote"]["05. price"]
           console.log("stockPrice = " + stockPrice);
+          stockPrice = body["Global Quote"]["05. price"];
         } 
       })
     };
    
     var addNewStock = async (newStock) => {
+      await getStockPrice(newStock);
       var newStock = new Stock({stock: newStock, price: stockPrice, likes: like, ip: ip});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -67,6 +68,7 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = async (stock) => {
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -76,6 +78,7 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = async (stock) => {
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -100,7 +103,6 @@ module.exports = function (app) {
     };
     
     if (stock2) {
-      getStockPrice(stock2);
       if (ip) { //if liked
         Stock.findOne({stock: stock2}, function(err, doc) {
           if (err) { console.log(err); }
