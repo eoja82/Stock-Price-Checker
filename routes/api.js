@@ -66,14 +66,17 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = (stock) => {
-      Stock.findOneAndUpdate({stock: stock}, {$inc: {likes: like}, $push: {ip: ip}},
+      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
-        else {
-          console.log("updateStockPriceAndLikes was a success");
-        }
+        else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
+        else { console.log("updateStockPriceAndLikes was a success"); }
       })
     };
+    
+    var updateStockPrice = (stock) => {
+      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice})
+    }
     
     if (stock1) {
       getStockPrice(stock1);
