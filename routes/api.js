@@ -65,6 +65,18 @@ module.exports = function (app) {
       });
     };
     
+    if (stock1) {
+      getStockPrice(stock1);
+      if (ip) {
+        Stock.findOneAndUpdate({stock: stock1, ip: ip}, function(err, doc) {
+          if (err) { console.log(err); }
+          else {
+            
+          }
+        })
+      }
+    }
+    
     if (stock2) {  //not comparing stocks
       getStockPrice(stock1);
       Stock.find({stock: stock1}, function(err, doc) {
