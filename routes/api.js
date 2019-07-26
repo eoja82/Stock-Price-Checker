@@ -75,8 +75,13 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = (stock) => {
-      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice})
-    }
+      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
+                             {new: true}, function(err, doc) {
+        if (err) { console.log(err); }
+        else if (!doc) { console.log("updateStockPrice failed"); }
+        else { console.log("updateStockPrice was a success"); }
+      })
+    };
     
     if (stock1) {
       getStockPrice(stock1);
@@ -87,23 +92,28 @@ module.exports = function (app) {
             addNewStock(stock1);
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
             updateStockPriceAndLikes(stock1);
+          } else {
+            updateStockPrice(stock1);
           }
         })
       }
-    }
+    };
     
-    if (stock2) {  //not comparing stocks
-      getStockPrice(stock1);
-      Stock.find({stock: stock1}, function(err, doc) {
-        if (err) { console.log(err); }
-        else if (!doc) {
-          addNewStock(stock1);
-        } else {
-          
-        }
-      });
-      
-    }  //else if 2 stocks
+    if (stock2) {
+      getStockPrice(stock2);
+      if (ip) { //if liked
+        Stock.findOne({stock: stock2}, function(err, doc) {
+          if (err) { console.log(err); }
+          else if (!doc) {
+            addNewStock(stock2);
+          } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
+            updateStockPriceAndLikes(stock2);
+          } else {
+            updateStockPrice(stock2);
+          }
+        })
+      }
+    };
     
       
     });
