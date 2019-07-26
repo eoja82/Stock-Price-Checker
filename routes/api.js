@@ -43,11 +43,11 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;    
     
-    var getStockPrice = (stock) => {
+    var getStockPrice = async (stock) => {
       
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      request(url, {json: true}, function(err, res, body) {
+      await request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
           stockPrice = body["Global Quote"]["05. price"];
