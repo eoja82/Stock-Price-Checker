@@ -40,14 +40,14 @@ module.exports = function (app) {
     var like = req.query.like ? 1 : 0;
     var ip = like ? req.ip : null;
     var price;
-    
+    var data;
     
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       fetch(url)
-        .then(res => res.json)
-        .then(console.log(json));
+        .then(res => data = JSON.parse(res.json))
+        .then(console.log(data));
       
     };
    
