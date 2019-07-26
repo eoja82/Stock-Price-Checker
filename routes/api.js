@@ -66,7 +66,13 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = (stock) => {
-      Stock.findOneAndUpdate(stock, {$inc: {likes: like}})
+      Stock.findOneAndUpdate({stock: stock}, {$inc: {likes: like}, $push: {ip: ip}},
+                             {new: true}, function(err, doc) {
+        if (err) { console.log(err); }
+        else {
+          console.log("updateStockPriceAndLikes was a success");
+        }
+      })
     };
     
     if (stock1) {
