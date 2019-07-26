@@ -22,7 +22,8 @@ module.exports = function (app) {
   var stockSchema = new mongoose.Schema({
     stock: String,
     price: String,
-    ip: [String],
+    ip: {type: [String],
+         default: []},
     likes: {
       type: Number,
       default: 0}
@@ -57,7 +58,7 @@ module.exports = function (app) {
    
     var addNewStock = async (newStock) => {
      await getStockPrice(newStock);
-      var newStock = new Stock({stock: newStock, price: stockPrice, likes: like, ip: ip});
+      var newStock = new Stock({stock: newStock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
@@ -68,7 +69,7 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = async (stock) => {
-     // await getStockPrice(stock);
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -78,7 +79,7 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = async (stock) => {
-     // await getStockPrice(stock);
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -127,9 +128,9 @@ module.exports = function (app) {
         Stock.findOne({stock: stock2}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock1);
+            addNewStock(stock2);
           } else {
-            updateStockPrice(stock1);
+            updateStockPrice(stock2);
           }
         });
       }
