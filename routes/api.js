@@ -21,6 +21,7 @@ module.exports = function (app) {
   
   var stockSchema = new mongoose.Schema({
     stock: String,
+    price: Number,
     ip: [String],
     likes: {
       type: Number,
