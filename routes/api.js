@@ -42,7 +42,7 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;     
     
-    var getStockPrice = (stock) => {
+    var getStockPrice = async (stock) => {
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
@@ -54,7 +54,7 @@ module.exports = function (app) {
       })
     };
    
-    var addNewStock = (newStock) => {
+    var addNewStock = async (newStock) => {
       var newStock = new Stock({stock: newStock, price: stockPrice, likes: like, ip: ip});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -65,7 +65,7 @@ module.exports = function (app) {
       });
     };
     
-    var updateStockPriceAndLikes = (stock) => {
+    var updateStockPriceAndLikes = async (stock) => {
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -74,7 +74,7 @@ module.exports = function (app) {
       })
     };
     
-    var updateStockPrice = (stock) => {
+    var updateStockPrice = async (stock) => {
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
