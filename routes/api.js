@@ -41,12 +41,12 @@ module.exports = function (app) {
     var ip = like ? req.ip : null;
     
     var data;
-    var price = data["Time Series (60min)"];
+    var price = data;
     console.log(price); 
     
     var getStockPrice = (stock) => {
-      var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
-                + stock + "&interval=60min&apikey=" + process.env.ALPHA_API_KEY;
+      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
+                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
