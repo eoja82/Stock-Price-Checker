@@ -40,15 +40,16 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    var stockPrice;     
+     var stockPrice;   
     
     var getStockPrice = async (stock) => {
+      
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
-          stockPrice = body["Global Quote"]["05. price"]
+          return stockPrice = body["Global Quote"]["05. price"]
           console.log("stockPrice = " + stockPrice);
         } 
       })
@@ -84,7 +85,6 @@ module.exports = function (app) {
     };
     
     if (stock1) {
-      getStockPrice(stock1);
       if (ip) { //if liked
         Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
