@@ -57,7 +57,7 @@ module.exports = function (app) {
     };
    
     var addNewStock = async (newStock) => {
-      await getStockPrice(newStock);
+      //await getStockPrice(newStock);
       var newStock = await new Stock({stock: newStock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -69,7 +69,7 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = async (stock) => {
-      await getStockPrice(stock);
+      //await getStockPrice(stock);
       await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -79,7 +79,7 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = async (stock) => {
-      await getStockPrice(stock);
+      //await getStockPrice(stock);
       await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -88,7 +88,9 @@ module.exports = function (app) {
       })
     };
     
-    if (stock1) {
+    async function handleStock1(stock1) {
+      await getStockPrice(stock1);
+      if (stock1) {
       if (ip) { //if liked
         Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
@@ -111,6 +113,7 @@ module.exports = function (app) {
         });
       }
     };
+  }
     
     if (stock2) {
       if (ip) { //if liked
