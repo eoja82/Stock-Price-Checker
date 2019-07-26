@@ -39,8 +39,10 @@ module.exports = function (app) {
     //stock2.toUppercase();
     var like = req.query.like ? 1 : 0;
     var ip = like ? req.ip : null;
-    var price;
+    
     var data;
+    var price = data[];
+    console.log(price); 
     
     var getStockPrice = (stock) => {
       var url = "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="
@@ -49,7 +51,7 @@ module.exports = function (app) {
         if (err) { return console.log(err); }
         else {
           data = body;
-          console.log(data); 
+          
         }
       })
       
