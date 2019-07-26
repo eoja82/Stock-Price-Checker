@@ -41,23 +41,23 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    var stockPrice;    
+    //var stockPrice;    
     
-    var getStockPrice = async (stock) => {
-      
+    var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       await request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
-          stockPrice = body["Global Quote"]["05. price"];
-          console.log("stockPrice = " + stockPrice);
+          console.log("stockPrice = " + body["Global Quote"]["05. price"]);
+          return body["Global Quote"]["05. price"];
+          
         } 
       })
     };
    
     var addNewStock = async (newStock) => {
-      //await getStockPrice(newStock);
+      var stockPrice = await getStockPrice(newStock);
       var newStock = await new Stock({stock: newStock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -69,7 +69,7 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = async (stock) => {
-      //await getStockPrice(stock);
+      var stockPrice = await getStockPrice(stock);
       await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -79,7 +79,7 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = async (stock) => {
-      //await getStockPrice(stock);
+      var stockPrice = await getStockPrice(stock);
       await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -89,7 +89,6 @@ module.exports = function (app) {
     };
     
     async function handleStock1(stock1) {
-      await getStockPrice(stock1);
       if (stock1) {
       if (ip) { //if liked
         Stock.findOne({stock: stock1}, function(err, doc) {
@@ -114,8 +113,8 @@ module.exports = function (app) {
       }
     };
   }
-    
-    if (stock2) {
+  handleStock1(stock1); 
+    /*if (stock2) {
       if (ip) { //if liked
         Stock.findOne({stock: stock2}, function(err, doc) {
           if (err) { console.log(err); }
@@ -137,7 +136,7 @@ module.exports = function (app) {
           }
         });
       }
-    };
+    };*/
     
       
     });
