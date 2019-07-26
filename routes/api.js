@@ -41,7 +41,7 @@ module.exports = function (app) {
     var ip = like ? req.ip : null;
     
     var data;
-    var price = data[];
+    var price = data["Time Series (60min)"];
     console.log(price); 
     
     var getStockPrice = (stock) => {
