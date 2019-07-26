@@ -21,7 +21,6 @@ module.exports = function (app) {
   
   var stockSchema = new mongoose.Schema({
     stock: String,
-    price: Number,
     ip: [String],
     likes: {
       type: Number,
@@ -50,9 +49,9 @@ module.exports = function (app) {
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
-          data = body;
+          //data = body;
           //console.log(data);
-          price = data["Global Quote"]["05. price"]
+          price = body["Global Quote"]["05. price"]
           console.log(price)
         }
       })
@@ -69,10 +68,9 @@ module.exports = function (app) {
         }
       });
     };
-   getStockPrice(stock1);
-    /*if (!stock2) {  //not comparing stocks
+   
+    if (!stock2) {  //not comparing stocks
       getStockPrice(stock1);
-      price = json[1][0]["4. close"];
       Stock.find({stock: stock1}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) {
@@ -82,8 +80,8 @@ module.exports = function (app) {
         }
       });
       
-    }  //else
-    */
+    }  //else if 2 stocks
+    
       
     });
     
