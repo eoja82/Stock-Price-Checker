@@ -43,22 +43,22 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;    
     
-    var getStockPrice = async (stock) => {
+    var getStockPrice = (stock) => {
       
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
+          stockPrice = body["Global Quote"]["05. price"];
           console.log("stockPrice = " + stockPrice);
-          return body["Global Quote"]["05. price"];
         } 
       })
     };
    
     var addNewStock = async (newStock) => {
-     await getStockPrice(newStock);
-      var newStock = new Stock({stock: newStock, price: stockPrice, likes: like});
+      await getStockPrice(newStock);
+      var newStock = await new Stock({stock: newStock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
@@ -70,7 +70,7 @@ module.exports = function (app) {
     
     var updateStockPriceAndLikes = async (stock) => {
       await getStockPrice(stock);
-      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
+      await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
@@ -80,7 +80,7 @@ module.exports = function (app) {
     
     var updateStockPrice = async (stock) => {
       await getStockPrice(stock);
-      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
+      await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPrice failed"); }
