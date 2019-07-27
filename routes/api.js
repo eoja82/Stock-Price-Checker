@@ -32,7 +32,7 @@ module.exports = function (app) {
   var Stock = mongoose.model("Stock", stockSchema);
 
   app.route('/api/stock-prices')
-    .get(async function (req, res){
+    .get(function (req, res){
     var stock1 = req.query.stock1.toUpperCase();
     stock1.toUpperCase();
     var stock2; //if stock2 compare stock prices
@@ -41,23 +41,21 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    //var stockPrice;    
+    var stockPrice;    
     
-    var getStockPrice = await function(stock) {  
+    var getStockPrice = (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
           console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          return body["Global Quote"]["05. price"];
+          stockPrice = body["Global Quote"]["05. price"];
         } 
       })
     };
    
-   
-    var addNewStock = await function(stock) {
-      var stockPrice = getStockPrice(stock);
+    var addNewStock = (stock) => {
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -68,8 +66,7 @@ module.exports = function (app) {
       });
     };
     
-    var updateStockPriceAndLikes = await function(stock) {
-      var stockPrice = getStockPrice(stock);
+    var updateStockPriceAndLikes = (stock) => {
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -78,8 +75,7 @@ module.exports = function (app) {
       })
     };
     
-    var updateStockPrice = await function(stock) {
-      var stockPrice = getStockPrice(stock);
+    var updateStockPrice = (stock) => {
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -88,37 +84,34 @@ module.exports = function (app) {
       })
     };
     
-    function handleStock1(stock1) {
+     async function handleStock1(stock1) {
+      await getStockPrice(stock1);
       if (stock1) {
        if (ip) {   // like is checked
         Stock.findOne({stock: stock1}, async function(err, doc) {
           if (err) { console.log(err); }
-          else if (!doc) {
-            //await getStockPrice(stock1);
+          else if (!doc) { 
             addNewStock(stock1); //not in db, add new
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            //await getStockPrice(stock1);
-            await updateStockPriceAndLikes(stock1);   //and push ip to db
+            updateStockPriceAndLikes(stock1);   //and push ip to db
           } else {
-            //await getStockPrice(stock1);
-            await updateStockPrice(stock1);
+            updateStockPrice(stock1);
           }
         })
        } else if (!ip) {   //like is not checked
-        Stock.findOne({stock: stock1}, async function(err, doc) {
+        Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            //await getStockPrice(stock1);
-            await addNewStock(stock1);
+            addNewStock(stock1);
           } else {
-            //await getStockPrice(stock1);
-            await updateStockPrice(stock1);
+            updateStockPrice(stock1);
           }
         });
       }
     };
-  }
-  (handleStock1(stock1)); 
+  };
+    
+  handleStock1(stock1);
     /*if (stock2) {
       if (ip) { //if liked
         Stock.findOne({stock: stock2}, function(err, doc) {
