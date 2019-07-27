@@ -50,7 +50,7 @@ module.exports = function (app) {
         if (err) { return console.log(err); }
         else {
           console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          stockPrice = body["Global Quote"]["05. price"];
+          return body["Global Quote"]["05. price"];
           
         } 
       })
@@ -79,7 +79,6 @@ module.exports = function (app) {
     };
     
     async function updateStockPrice(stock) {
-      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -91,14 +90,17 @@ module.exports = function (app) {
     function handleStock1(stock1) {
       if (stock1) {
       if (ip) {   // like is checked
-        Stock.findOne({stock: stock1}, function(err, doc) {
+        Stock.findOne({stock: stock1}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock1); //not in db, add new
+            await getStockPrice(stock1);
+            await addNewStock(stock1); //not in db, add new
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            updateStockPriceAndLikes(stock1);   //and push ip to db
+            await getStockPrice(stock1);
+            await updateStockPriceAndLikes(stock1);   //and push ip to db
           } else {
-            updateStockPrice(stock1);
+            await getStockPrice(stock1);
+            await updateStockPrice(stock1);
           }
         })
       } else if (!ip) {   //like is not checked
