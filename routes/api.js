@@ -41,7 +41,7 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    var stockPrice;    
+    var stockPrice;
     
     var getStockPrice = (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
@@ -84,8 +84,7 @@ module.exports = function (app) {
       })
     };
     
-     async function handleStock1(stock1) {
-      await getStockPrice(stock1);
+    function handleStock1(stock1) {
       if (stock1) {
        if (ip) {   // like is checked
         Stock.findOne({stock: stock1}, async function(err, doc) {
