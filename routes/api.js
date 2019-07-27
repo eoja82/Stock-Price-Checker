@@ -32,7 +32,7 @@ module.exports = function (app) {
   var Stock = mongoose.model("Stock", stockSchema);
   
   app.route('/api/stock-prices')
-    .get(function async (req, res){
+    .get(function (req, res){
     var stock1 = req.query.stock1.toUpperCase();
     var stock2; //if stock2 compare stock prices
     if (req.query.stock2) { stock2 = req.query.stock2.toUpperCase();}
@@ -55,15 +55,15 @@ module.exports = function (app) {
     };
 
   var addNewStock = async (stock) => {
-      var stockPrice = await getStockPrice(stock);
-      var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
+      var stockPrice = await getStockPrice(stock).then( (price) => {
+      var newStock = new Stock({stock: stock, price: price, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
         else {
           res.json({"stock": doc.stock, "price": doc.price, "likes": doc.likes})
         }
-      });
+      });})
     };
     
     var updateStockPriceAndLikes = async (stock) => {
