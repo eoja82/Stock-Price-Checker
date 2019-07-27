@@ -41,7 +41,7 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    //var stockPrice;    
+    var stockPrice;    
     
     function getStockPrice(stock) {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
@@ -50,13 +50,14 @@ module.exports = function (app) {
         if (err) { return console.log(err); }
         else {
           console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          return body["Global Quote"]["05. price"];
+          stockPrice = body["Global Quote"]["05. price"];
         } 
       })
     };
    
+   
     async function addNewStock(stock) {
-      var stockPrice = await getStockPrice(stock);
+      //var stockPrice = await getStockPrice(stock);
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -68,7 +69,7 @@ module.exports = function (app) {
     };
     
     async function updateStockPriceAndLikes(stock) {
-      var stockPrice = await getStockPrice(stock);
+      //var stockPrice = await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -78,7 +79,7 @@ module.exports = function (app) {
     };
     
     async function updateStockPrice(stock) {
-      var stockPrice = await getStockPrice(stock);
+      //var stockPrice = await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -117,7 +118,7 @@ module.exports = function (app) {
       }
     };
   }
-  handleStock1(stock1); 
+  (handleStock1(stock1)); 
     /*if (stock2) {
       if (ip) { //if liked
         Stock.findOne({stock: stock2}, function(err, doc) {
