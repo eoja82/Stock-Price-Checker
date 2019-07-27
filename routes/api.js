@@ -41,9 +41,9 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    var stockPrice;
+    //var stockPrice;
     
-    var getStockPrice = (stock) => {  
+    /*var getStockPrice = (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
@@ -53,9 +53,19 @@ module.exports = function (app) {
           stockPrice = body["Global Quote"]["05. price"];
         } 
       })
-    };
+    };*/
    
-    var addNewStock = (stock) => {
+    var addNewStock = async (stock) => {
+      var stockPrice;
+      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
+                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+      await request(url, {json: true}, function(err, res, body) {
+        if (err) { return console.log(err); }
+        else {
+          console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
+          stockPrice = body["Global Quote"]["05. price"];
+        } 
+      })
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -87,7 +97,7 @@ module.exports = function (app) {
     function handleStock1(stock1) {
       if (stock1) {
        if (ip) {   // like is checked
-        Stock.findOne({stock: stock1}, async function(err, doc) {
+        Stock.findOne({stock: stock1}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
             addNewStock(stock1); //not in db, add new
