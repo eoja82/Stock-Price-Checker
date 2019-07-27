@@ -33,17 +33,17 @@ module.exports = function (app) {
 
   app.route('/api/stock-prices')
     .get(function (req, res){
-    var stock1 = req.query.stock1; 
+    var stock1 = req.query.stock1.toUpperCase();
     stock1.toUpperCase();
-    var stock2 = req.query.stock2; //if stock2 compare stock prices
-    if (stock2) { stock2.toUpperCase();}
+    var stock2; //if stock2 compare stock prices
+    if (req.query.stock2) { stock2 = req.query.stock2.toUpperCase();}
     var like = req.query.like ? 1 : 0;
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
     //var stockPrice;    
     
-    var getStockPrice = async (stock) => {  
+    var stockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       await request(url, {json: true}, function(err, res, body) {
@@ -57,7 +57,7 @@ module.exports = function (app) {
     };
    
     var addNewStock = async (stock) => {
-      var stockPrice = await getStockPrice(stock);
+      await stockPrice(stock);
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -69,7 +69,7 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = async (stock) => {
-      var stockPrice = await getStockPrice(stock);
+      await stockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -79,7 +79,7 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = async (stock) => {
-      var stockPrice = await getStockPrice(stock);
+      await stockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
