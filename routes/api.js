@@ -32,7 +32,7 @@ module.exports = function (app) {
   var Stock = mongoose.model("Stock", stockSchema);
 
   app.route('/api/stock-prices')
-    .get(function (req, res){
+    .get(function async (req, res){
     var stock1 = req.query.stock1.toUpperCase();
     stock1.toUpperCase();
     var stock2; //if stock2 compare stock prices
