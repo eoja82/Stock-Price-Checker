@@ -43,21 +43,21 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;    
     
-    function getStockPrice(stock) {  
+    async function getStockPrice(stock) {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
           console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          return body["Global Quote"]["05. price"];
+          stockPrice = body["Global Quote"]["05. price"];
+          console.log("var stockPrice " + stockPrice)
           
         } 
       })
     };
    
     async function addNewStock(stock) {
-      await getStockPrice(stock);
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -69,7 +69,6 @@ module.exports = function (app) {
     };
     
     async function updateStockPriceAndLikes(stock) {
-      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -87,9 +86,9 @@ module.exports = function (app) {
       })
     };
     
-    function handleStock1(stock1) {
+    async function handleStock1(stock1) {
       if (stock1) {
-      if (ip) {   // like is checked
+       if (ip) {   // like is checked
         Stock.findOne({stock: stock1}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
@@ -103,13 +102,15 @@ module.exports = function (app) {
             await updateStockPrice(stock1);
           }
         })
-      } else if (!ip) {   //like is not checked
-        Stock.findOne({stock: stock1}, function(err, doc) {
+       } else if (!ip) {   //like is not checked
+        Stock.findOne({stock: stock1}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock1);
+            await getStockPrice(stock1);
+            await addNewStock(stock1);
           } else {
-            updateStockPrice(stock1);
+            await getStockPrice(stock1);
+            await updateStockPrice(stock1);
           }
         });
       }
