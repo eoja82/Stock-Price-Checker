@@ -31,22 +31,9 @@ module.exports = function (app) {
   
   var Stock = mongoose.model("Stock", stockSchema);
   
-  var getStockPrice = (stock) => {  
-      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
-                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      request(url, {json: true}, function(err, res, body) {
-        if (err) { return console.log(err); }
-        else {
-          //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          return body["Global Quote"]["05. price"];
-        } 
-      })
-    };
-
   app.route('/api/stock-prices')
     .get(function async (req, res){
     var stock1 = req.query.stock1.toUpperCase();
-    stock1.toUpperCase();
     var stock2; //if stock2 compare stock prices
     if (req.query.stock2) { stock2 = req.query.stock2.toUpperCase();}
     var like = req.query.like ? 1 : 0;
@@ -55,8 +42,19 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     //var stockPrice;
     
-   
-    var addNewStock = async (stock) => {
+   var getStockPrice = async (stock) => {  
+      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
+                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+      await request(url, {json: true}, function(err, res, body) {
+        if (err) { return console.log(err); }
+        else {
+          //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
+          return body["Global Quote"]["05. price"];
+        } 
+      })
+    };
+
+  var addNewStock = async (stock) => {
       var stockPrice = await getStockPrice(stock);
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
@@ -88,7 +86,7 @@ module.exports = function (app) {
         else { console.log("updateStockPrice was a success"); }
       })
     };
-    
+      
     function handleStock1(stock1) {
       if (stock1) {
        if (ip) {   // like is checked
