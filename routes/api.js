@@ -41,9 +41,9 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    //var stockPrice;
+    var stockPrice;
     
-    /*var getStockPrice = (stock) => {  
+    var getStockPrice = (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
       request(url, {json: true}, function(err, res, body) {
@@ -53,19 +53,10 @@ module.exports = function (app) {
           stockPrice = body["Global Quote"]["05. price"];
         } 
       })
-    };*/
+    };
    
     var addNewStock = async (stock) => {
-      var stockPrice;
-      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
-                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      await request(url, {json: true}, function(err, res, body) {
-        if (err) { return console.log(err); }
-        else {
-          console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          stockPrice = body["Global Quote"]["05. price"];
-        } 
-      })
+      await getStockPrice(stock);
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -76,7 +67,8 @@ module.exports = function (app) {
       });
     };
     
-    var updateStockPriceAndLikes = (stock) => {
+    var updateStockPriceAndLikes = async (stock) => {
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -85,7 +77,8 @@ module.exports = function (app) {
       })
     };
     
-    var updateStockPrice = (stock) => {
+    var updateStockPrice = async (stock) => {
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
