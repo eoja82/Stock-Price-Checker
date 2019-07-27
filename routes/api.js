@@ -21,7 +21,7 @@ module.exports = function (app) {
   
   var stockSchema = new mongoose.Schema({
     stock: String,
-    price: Number,
+    price: String,
     ip: {type: [String],
          default: []},
     likes: {
@@ -41,23 +41,23 @@ module.exports = function (app) {
     //console.log("like " + like)
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
-    //var stockPrice;    
+    var stockPrice;    
     
-    var stockPrice = async (stock) => {  
+    function getStockPrice(stock) {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      await request(url, {json: true}, function(err, res, body) {
+      request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
           console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          return body["Global Quote"]["05. price"];
+          stockPrice = body["Global Quote"]["05. price"];
           
         } 
       })
     };
    
-    var addNewStock = async (stock) => {
-      await stockPrice(stock);
+    async function addNewStock(stock) {
+      await getStockPrice(stock);
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -68,8 +68,8 @@ module.exports = function (app) {
       });
     };
     
-    var updateStockPriceAndLikes = async (stock) => {
-      await stockPrice(stock);
+    async function updateStockPriceAndLikes(stock) {
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -78,8 +78,8 @@ module.exports = function (app) {
       })
     };
     
-    var updateStockPrice = async (stock) => {
-      await stockPrice(stock);
+    async function updateStockPrice(stock) {
+      await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -88,7 +88,7 @@ module.exports = function (app) {
       })
     };
     
-    async function handleStock1(stock1) {
+    function handleStock1(stock1) {
       if (stock1) {
       if (ip) {   // like is checked
         Stock.findOne({stock: stock1}, function(err, doc) {
