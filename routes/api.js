@@ -42,10 +42,10 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     //var stockPrice;
     
-   var getStockPrice = async (stock) => {  
+   var getStockPrice = (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-      await request(url, {json: true}, function(err, res, body) {
+      request(url, {json: true}, function(err, res, body) {
         if (err) { return console.log(err); }
         else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
@@ -55,15 +55,15 @@ module.exports = function (app) {
     };
 
   var addNewStock = async (stock) => {
-      var stockPrice = await getStockPrice(stock).then( (price) => {
-      var newStock = new Stock({stock: stock, price: price, likes: like});
+      var stockPrice = await getStockPrice(stock)
+      var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
         else {
           res.json({"stock": doc.stock, "price": doc.price, "likes": doc.likes})
         }
-      });})
+      });
     };
     
     var updateStockPriceAndLikes = async (stock) => {
