@@ -139,7 +139,7 @@ module.exports = function (app) {
     };
     
     async function begin() {
-      await getStockPrice(stock1); //which calls handleStock, which 
+      await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice
       if (stock2) {await getStockPrice(stock2)};
       sendResponse(responseStock);
     };
