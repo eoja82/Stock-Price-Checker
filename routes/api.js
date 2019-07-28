@@ -128,31 +128,13 @@ module.exports = function (app) {
    
     getStockPrice(stock1);
     if (stock2) {getStockPrice(stock2)};
-  
-    /*if (stock2) {
-      if (ip) { //if liked
-        Stock.findOne({stock: stock2}, function(err, doc) {
-          if (err) { console.log(err); }
-          else if (!doc) {
-            addNewStock(stock2);
-          } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            updateStockPriceAndLikes(stock2);
-          } else {
-            updateStockPrice(stock2);
-          }
-        })
-      } else if (!ip) {
-        Stock.findOne({stock: stock2}, function(err, doc) {
-          if (err) { console.log(err); }
-          else if (!doc) {
-            addNewStock(stock2);
-          } else {
-            updateStockPrice(stock2);
-          }
-        });
-      }
-    };*/
     
+    /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
+  { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
+    if (responseStock.length > 1) {
+      res.json({"stockData": { }});
+
+                            
       
     });
     
