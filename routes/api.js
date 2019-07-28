@@ -125,7 +125,7 @@ module.exports = function (app) {
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
         request(url, {json: true}, function(err, resp, body) {
-        if (err) { return console.log(err); }
+        if (err) { console.log(err); }
           else if (!body["Global Quote"]["05. price"]) {
             return res.send("please enter a valid stock");
           }
@@ -136,15 +136,11 @@ module.exports = function (app) {
         } 
       })
     };
-   
-  async function begin() {  
-    await getStockPrice(stock1);
-    if (stock2) {await getStockPrice(stock2)};
-    await sendResponse(responseStock);
-  };
+    
+    getStockPrice(stock1);
+    if (stock2) {getStockPrice(stock2)};
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
-  begin()  
                             
       
     });
