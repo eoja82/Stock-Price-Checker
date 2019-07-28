@@ -110,10 +110,10 @@ module.exports = function (app) {
     };
   };
     
-    var getStockPrice = async (stock) => {  
+    var getStockPrice = (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-        await request(url, {json: true}, function(err, resp, body) {
+        request(url, {json: true}, function(err, resp, body) {
         if (err) { return console.log(err); }
           else if (!body["Global Quote"]["05. price"]) {
             return res.send("please enter a valid stock");
