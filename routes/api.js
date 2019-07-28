@@ -41,9 +41,9 @@ module.exports = function (app) {
     var ip = like ? req.ip : null;
     //console.log("ip is " + ip);
     var stockPrice;
+    var responseStock = [];
 
-  var addNewStock = (stock) => {
-      //var stockPrice = await getStockPrice(stock)
+    var addNewStock = (stock) => {
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
@@ -55,7 +55,6 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = (stock) => {
-      //var stockPrice = await getStockPrice(stock);
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
@@ -65,7 +64,6 @@ module.exports = function (app) {
     };
     
     var updateStockPrice = (stock) => {
-      //var stockPrice = await getStockPrice(stock);
       console.log("stockPrice = " + stockPrice)
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
