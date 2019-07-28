@@ -48,8 +48,11 @@ module.exports = function (app) {
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
+        else if (!doc) { console.log("addNewStock failed")} 
         else {
-          res.json({"stock": doc.stock, "price": doc.price, "likes": doc.likes})
+          console.log("addNewStock was a success"); 
+          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          console.log(responseStock)
         }
       });
     };
@@ -59,7 +62,10 @@ module.exports = function (app) {
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
-        else { console.log("updateStockPriceAndLikes was a success"); }
+        else { 
+          console.log("updateStockPriceAndLikes was a success"); 
+          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+        }
       })
     };
     
@@ -69,30 +75,33 @@ module.exports = function (app) {
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPrice failed"); }
-        else { console.log("updateStockPrice was a success"); }
+        else { 
+          console.log("updateStockPrice was a success");
+          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+        }
       })
     };
       
-    function handleStock1(stock1) {
-      if (stock1) {
+    function handleStock(stock) {
+      if (stock) {
        if (ip) {   // like is checked
-        Stock.findOne({stock: stock1}, function(err, doc) {
+        Stock.findOne({stock: stock}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
-            addNewStock(stock1); //not in db, add new
+            addNewStock(stock); //not in db, add new
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            updateStockPriceAndLikes(stock1);   //and push ip to db
+            updateStockPriceAndLikes(stock);   //and push ip to db
           } else {
-            updateStockPrice(stock1);
+            updateStockPrice(stock);
           }
         })
        } else if (!ip) {   //like is not checked
-        Stock.findOne({stock: stock1}, function(err, doc) {
+        Stock.findOne({stock: stock}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock1);
+            addNewStock(stock);
           } else {
-            updateStockPrice(stock1);
+            updateStockPrice(stock);
           }
         });
       }
@@ -110,7 +119,8 @@ module.exports = function (app) {
         else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           stockPrice = body["Global Quote"]["05. price"];
-          handleStock1(stock1);
+          handleStock(stock1);
+          if (stock2) { handleStock(stock2) };
         } 
       })
     };
