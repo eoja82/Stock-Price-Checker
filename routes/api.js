@@ -138,8 +138,13 @@ module.exports = function (app) {
       })
     };
     
-    getStockPrice(stock1); 
-    if (stock2) {getStockPrice(stock2)};
+    async function begin() {
+      await getStockPrice(stock1); //which calls handleStock, which 
+      if (stock2) {await getStockPrice(stock2)};
+      sendResponse(responseStock);
+    };
+    
+    begin();
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
                             
