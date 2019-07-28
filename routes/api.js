@@ -122,8 +122,9 @@ module.exports = function (app) {
   };
     
     var getStockPrice = (stock) => {  
-      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
-                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+      /*var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
+                + stock + "&apikey=" + process.env.ALPHA_API_KEY;*/
+      var url = "https://api.iextrading.com/1.0?symbols=" + stock + ""
         request(url, {json: true}, function(err, resp, body) {
         if (err) { console.log(err); }
           else if (!body["Global Quote"]["05. price"]) {
