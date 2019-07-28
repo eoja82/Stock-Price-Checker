@@ -122,17 +122,16 @@ module.exports = function (app) {
   };
     
     var getStockPrice = (stock) => {  
-      /*var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
-                + stock + "&apikey=" + process.env.ALPHA_API_KEY;*/
-      var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book?filter=latestPrice";
+      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
+                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
         request(url, {json: true}, function(err, resp, body) {
         if (err) { console.log(err); }
-          else if (!body["quote"]["latestPrice"]) {
-            return res.send("please enter a valid stock");
+          else if (!body["Global Quote"]["05. price"]) {
+            res.send("please enter a valid stock");
           }
         else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          stockPrice = body["quote"]["latestPrice"]  //body["Global Quote"]["05. price"];
+          stockPrice = body["Global Quote"]["05. price"];
           handleStock(stock);
         } 
       })
