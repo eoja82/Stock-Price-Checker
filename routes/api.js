@@ -126,14 +126,13 @@ module.exports = function (app) {
       })
     };
    
+    
     getStockPrice(stock1);
     if (stock2) {getStockPrice(stock2)};
-    
+
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
-    if (responseStock.lenght > 1) {
-        res.json({"stockData": responseStock[0]});
-      };
+    
                             
       
     });
