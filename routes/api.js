@@ -42,6 +42,7 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;
     var responseStock = [];
+   
     
     var sendResponse = (response) => {
       if (response.lenght > 1) {
@@ -138,7 +139,7 @@ module.exports = function (app) {
     };
     
     getStockPrice(stock1); 
-    if (stock2 && responseStock.lenght === 0) {getStockPrice(stock2)};
+    if (stock2) {getStockPrice(stock2)};
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
                             
