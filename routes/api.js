@@ -42,6 +42,17 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;
     var responseStock = [];
+    
+    var sendResponse = (response) => {
+      if (response.lenght > 1) {
+        var likes0 = response[0].likes - response[1].likes; //compare relative likes
+        var likes1 = response[1].likes - response[0].likes;
+        res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
+                               {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
+      } else {
+        res.json({"stockData": response[0]});
+      };
+    };
 
     var addNewStock = (stock) => {
       var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
@@ -80,6 +91,11 @@ module.exports = function (app) {
           console.log("updateStockPrice was a success");
           responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
+          if (!stock2) {
+            sendResponse(responseStock);
+          } else {
+            getStockPrice(stock2)
+          }
         }
       })
     };
@@ -128,7 +144,7 @@ module.exports = function (app) {
    
     
     getStockPrice(stock1);
-    if (stock2) {getStockPrice(stock2)};
+    //if (stock2) {getStockPrice(stock2)};
 
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
