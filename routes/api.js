@@ -84,18 +84,13 @@ module.exports = function (app) {
     var updateStockPrice = (stock) => {
       console.log("stockPrice = " + stockPrice)
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
-                             {new: true}, function(err, doc) {
+                             {new: true}, async function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPrice failed"); }
         else { 
           console.log("updateStockPrice was a success");
           responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
-          if (!stock2) {
-            sendResponse(responseStock);
-          } else {
-            getStockPrice(stock2)
-          }
         }
       })
     };
@@ -142,13 +137,14 @@ module.exports = function (app) {
       })
     };
    
-    
-    getStockPrice(stock1);
-    //if (stock2) {getStockPrice(stock2)};
-
+  async function begin() {  
+    await getStockPrice(stock1);
+    if (stock2) {await getStockPrice(stock2)};
+    await sendResponse(responseStock);
+  };
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
-    
+  begin()  
                             
       
     });
