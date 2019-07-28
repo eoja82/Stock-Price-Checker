@@ -131,9 +131,14 @@ module.exports = function (app) {
     
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
-    if (responseStock.length > 1) {
-      res.json({"stockData": { }});
-
+    if (responseStock.lenght > 1) {
+      var likes0 = responseStock[0].likes - responseStock[1].likes;
+      var likes1 = responseStock[1].likes - responseStock[0].likes;
+      res.json({"stockData": [{"stock": responseStock[0].stock, "price": responseStock[0].price, "rel_likes": likes0},
+                             {"stock": responseStock[1].stock, "price": responseStock[1].price, "rel_likes": likes1}]});
+    } else {
+      res.json({"stockData": responseStock[0]});
+    }
                             
       
     });
