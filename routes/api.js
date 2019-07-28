@@ -52,7 +52,7 @@ module.exports = function (app) {
         else {
           console.log("addNewStock was a success"); 
           responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
-          console.log(responseStock)
+          console.log(responseStock);
         }
       });
     };
@@ -120,7 +120,7 @@ module.exports = function (app) {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           stockPrice = body["Global Quote"]["05. price"];
           handleStock(stock1);
-          if (stock2) { handleStock(stock2) };
+          if (stock2) { getStockPrice(stock2) };
         } 
       })
     };
