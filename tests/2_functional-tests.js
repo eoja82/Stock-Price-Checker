@@ -50,7 +50,7 @@ suite('Functional Tests', function() {
         .query({stock1: 'goog'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.property(res.body.stockData, "stock");
+          assert.equal(res.body.stockData.stock, "GOOG");
           assert.property(res.body.stockData, "price");
           assert.property(res.body.stockData, "likes");
           //not done
@@ -61,10 +61,11 @@ suite('Functional Tests', function() {
       test('2 stocks', function(done) {
         chai.request(server)
         .get('/api/stock-prices')
-        .query({stock1: 'goog'})
+        .query({stock1: 'goog', stock2: "msft"})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.property(res.body.stockData, "stock");
+          assert.equal(res.body.stockData[0].stock, "GOOG")
+          assert.equal(res.body.stockData[0].stock, "GOOG")
           assert.property(res.body.stockData, "price");
           assert.property(res.body.stockData, "likes");
           //not done
