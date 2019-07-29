@@ -27,7 +27,6 @@ suite('Functional Tests', function() {
           assert.property(res.body.stockData, "price");
           assert.property(res.body.stockData, "likes");
           //complete this one too
-          
           done();
         });
       });
@@ -41,7 +40,6 @@ suite('Functional Tests', function() {
           assert.equal(res.body.stockData.stock, "GOOG");
           assert.property(res.body.stockData, "price");
           assert.isAtLeast(res.body.stockData.likes, 1);
-          //not done
           done();
         });
       });
