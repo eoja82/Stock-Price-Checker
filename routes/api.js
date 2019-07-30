@@ -15,7 +15,6 @@ var mongoose    = require('mongoose');
 var request = require("request");
 //var xhr = new XMLHttpRequest();
 //const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
-mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
 
 module.exports = function (app) {
   
