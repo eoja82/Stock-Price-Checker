@@ -13,6 +13,8 @@ var MongoClient = require('mongodb');
 var shortid  = require("shortid");
 var mongoose    = require('mongoose');
 var request = require("request");
+
+mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
 //var xhr = new XMLHttpRequest();
 //const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 
@@ -43,14 +45,14 @@ module.exports = function (app) {
     var responseStock = [];
    
     
-    var sendResponse = (response) => {
+    var sendResponse = async (response) => {
       if (response.lenght > 1) {
         var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
-        res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
+        await res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
       } else {
-        res.json({"stockData": response[0]});
+        await res.json({"stockData": response[0]});
       };
     };
 
@@ -124,7 +126,7 @@ module.exports = function (app) {
     var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-        await request(url, {json: true}, async function(err, resp, body) {
+        await request(url, {json: true}, function(err, resp, body) {
         if (err) { console.log(err); }
           else if (!body["Global Quote"]["05. price"]) {
             res.send("please enter a valid stock");
@@ -132,7 +134,7 @@ module.exports = function (app) {
         else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           stockPrice = body["Global Quote"]["05. price"];
-          await handleStock(stock);
+          handleStock(stock);
         } 
       })
     };
@@ -140,7 +142,7 @@ module.exports = function (app) {
     async function begin() {
       await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice
       if (stock2) {await getStockPrice(stock2)};
-      sendResponse(responseStock);
+      await sendResponse(responseStock);
     };
     
     begin();
