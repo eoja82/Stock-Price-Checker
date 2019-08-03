@@ -54,8 +54,8 @@ module.exports = function (app) {
       };
     };
 
-    var addNewStock = (stock) => {
-      var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
+    var addNewStock = async (stock) => {
+      var newStock = await new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
@@ -68,8 +68,8 @@ module.exports = function (app) {
       });
     };
     
-    var updateStockPriceAndLikes = (stock) => {
-      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
+    var updateStockPriceAndLikes = async (stock) => {
+      await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
@@ -81,9 +81,9 @@ module.exports = function (app) {
       })
     };
     
-    var updateStockPrice = (stock) => {
+    var updateStockPrice = async (stock) => {
       console.log("stockPrice = " + stockPrice)
-      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
+      await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, async function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPrice failed"); }
@@ -95,36 +95,36 @@ module.exports = function (app) {
       })
     };
       
-    function handleStock(stock) {
+    var handleStock = async (stock) => {
       if (stock) {
        if (ip) {   // like is checked
-        Stock.findOne({stock: stock}, function(err, doc) {
+       await Stock.findOne({stock: stock}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
-            addNewStock(stock); //not in db, add new
+           await  addNewStock(stock); //not in db, add new
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            updateStockPriceAndLikes(stock);   //and push ip to db
+            await updateStockPriceAndLikes(stock);   //and push ip to db
           } else {
-            updateStockPrice(stock);
+            await updateStockPrice(stock);
           }
         })
        } else if (!ip) {   //like is not checked
-        Stock.findOne({stock: stock}, function(err, doc) {
+        await Stock.findOne({stock: stock}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock);
+            await addNewStock(stock);
           } else {
-            updateStockPrice(stock);
+            await updateStockPrice(stock);
           }
         });
       }
     };
   };
     
-    var getStockPrice = (stock) => {  
+    var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-        request(url, {json: true}, function(err, resp, body) {
+        await request(url, {json: true}, async function(err, resp, body) {
         if (err) { console.log(err); }
           else if (!body["Global Quote"]["05. price"]) {
             res.send("please enter a valid stock");
@@ -132,7 +132,7 @@ module.exports = function (app) {
         else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           stockPrice = body["Global Quote"]["05. price"];
-          handleStock(stock);
+          await handleStock(stock);
         } 
       })
     };
