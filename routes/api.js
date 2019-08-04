@@ -44,18 +44,7 @@ module.exports = function (app) {
     var stockPrice;
     var responseStock = [];
     
-    var sendResponse = async (response) => {
-      if (response.lenght > 1) { //user entered 2 stocks to compare
-        var likes0 = response[0].likes - response[1].likes; //compare relative likes
-        var likes1 = response[1].likes - response[0].likes;
-        res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
-                               {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
-      } else {
-        console.log("responseStock = " + response);
-        res.json({"stockData": response});
-        
-      };
-    };
+    
 
     var addNewStock = async (stock) => {
       var newStock = await new Stock({stock: stock, price: stockPrice, likes: like});
@@ -140,11 +129,24 @@ module.exports = function (app) {
       })
     };
     
+    var sendResponse = async (response) => {
+      await getStockPrice(stock1);
+      if (stock2) { await getStockPrice(stock2); }
+      if (response.lenght > 1) { //user entered 2 stocks to compare
+        var likes0 = response[0].likes - response[1].likes; //compare relative likes
+        var likes1 = response[1].likes - response[0].likes;
+        res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
+                               {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
+      } else {
+        console.log("responseStock = " + response);
+        res.json({"stockData": response});
+        
+      };
+    };
+    
     var begin = async () => {  
       await getStockPrice(stock1);
-      if (stock2) {
-        await getStockPrice(stock2);
-      }  
+      if (stock2) { await getStockPrice(stock2); }  
       await sendResponse(responseStock);
     };
    
