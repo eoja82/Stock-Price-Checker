@@ -94,7 +94,7 @@ module.exports = function (app) {
         else { 
           console.log("updateStockPrice was a success");
           responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
-          //console.log("responseStock = " + responseStock);
+          console.log(responseStock);
         }
       })
     };
@@ -142,7 +142,7 @@ module.exports = function (app) {
     };
     
     var begin = async () => {
-      await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice
+      await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice if entering goog
       if (stock2) {await getStockPrice(stock2)};
       return sendResponse(responseStock);
     };
