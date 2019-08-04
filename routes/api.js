@@ -140,7 +140,7 @@ module.exports = function (app) {
       })
     };
     
-    async function begin() {
+    var begin = async () => {
       await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice
       if (stock2) {await getStockPrice(stock2)};
       await sendResponse(responseStock);
