@@ -87,50 +87,52 @@ module.exports = function (app) {
       })
     };
       
-    var handleStock = async (stock) => {
+    var handleStock = (stock) => {
       if (stock) {
        if (ip) {   // like is checked
-       await Stock.findOne({stock: stock}, async function(err, doc) {
+       Stock.findOne({stock: stock}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
-           await  addNewStock(stock); //not in db, add new
+           addNewStock(stock); //not in db, add new
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            await updateStockPriceAndLikes(stock);   //and push ip to db
+            updateStockPriceAndLikes(stock);   //and push ip to db
           } else {
-            await updateStockPrice(stock);
+            updateStockPrice(stock);
           }
         })
        } else if (!ip) {   //like is not checked
-        await Stock.findOne({stock: stock}, async function(err, doc) {
+        Stock.findOne({stock: stock}, function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            await addNewStock(stock);
+            addNewStock(stock);
           } else {
-            await updateStockPrice(stock);
+            updateStockPrice(stock);
           }
         });
       }
     };
-  };
+  }; 
     
     var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-        return new Promise( (resolve, reject) =>  request(url, {json: true}, async function(err, resp, body) {
-        if (err) { console.log(err); }
-          else if (!body["Global Quote"]["05. price"]) {
-            res.send("please enter a valid stock");
-          }
-        else {
+        return new Promise( (resolve, reject) => { 
+          request(url, {json: true}, function(err, resp, body) {
+            if (err) { console.log(err); }
+            else if (!body["Global Quote"]["05. price"]) {
+              res.send("please enter a valid stock");
+              reject();
+            } else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-          stockPrice = body["Global Quote"]["05. price"];
-          await handleStock(stock);
-        } 
-      })
-      ) //Promise
+            stockPrice = body["Global Quote"]["05. price"];
+            handleStock(stock);
+            resolve();
+            } 
+          })
+        }) //Promise
     };
     
-    var sendResponse = async (response) => {
+    var sendResponse = (response) => {
       if (response.lenght > 1) { //user entered 2 stocks to compare
         var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
@@ -145,7 +147,7 @@ module.exports = function (app) {
     var begin = async () => {  
       await getStockPrice(stock1);
       if (stock2) { await getStockPrice(stock2); }  
-      await sendResponse(responseStock);
+      sendResponse(responseStock);
     };
    
     begin();
