@@ -43,17 +43,18 @@ module.exports = function (app) {
     //console.log("ip is " + ip);
     var stockPrice;
     var responseStock = [];
+    
    
     
-    var sendResponse = (response) => {
+    var sendResponse = async (response) => {
       if (response.lenght > 1) {
         var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
-        res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
+        await res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
       } else {
-        res.json({"stockData": response});
-        console.log("response = " + response)
+        await res.json({"stockData": response});
+        console.log("responseStock = " + response)
       };
     };
 
@@ -93,7 +94,7 @@ module.exports = function (app) {
         else { 
           console.log("updateStockPrice was a success");
           responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
-          console.log(responseStock);
+          //console.log("responseStock = " + responseStock);
         }
       })
     };
@@ -143,9 +144,9 @@ module.exports = function (app) {
     var begin = async () => {
       await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice
       if (stock2) {await getStockPrice(stock2)};
-      await sendResponse(responseStock);
+      return sendResponse(responseStock);
     };
-    
+   
     begin();
     /*responseStock = [ { stock: 'GOOG', price: '1250.4100', likes: 0 },
   { stock: 'MSFT', price: '141.3400', likes: 0 } ]*/
