@@ -142,9 +142,17 @@ module.exports = function (app) {
     };
     
     var begin = async () => {
-      await getStockPrice(stock1); //which calls handleStock, which calls updateStockPrice if entering goog
-      if (stock2) {await getStockPrice(stock2)};
-      return sendResponse(responseStock);
+      await getStockPrice(stock1)
+        .then( async () => { //which calls handleStock, which calls updateStockPrice if entering goog
+          if (stock2) {
+            await getStockPrice(stock2)
+          } else { 
+            await sendResponse(responseStock); 
+          } else {
+            await sendResponse(responseStock);
+          }
+        })
+          
     };
    
     begin();
