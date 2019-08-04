@@ -45,14 +45,15 @@ module.exports = function (app) {
     var responseStock = [];
    
     
-    var sendResponse = async (response) => {
+    var sendResponse = (response) => {
       if (response.lenght > 1) {
         var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
-        await res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
+        res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
       } else {
-        await res.json({"stockData": response[0]});
+        res.json({"stockData": response});
+        console.log("response = " + response)
       };
     };
 
