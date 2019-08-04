@@ -64,19 +64,23 @@ module.exports = function (app) {
     };
     
     var updateStockPriceAndLikes = (stock) => {
-      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
+      return new Promise((resolve, reject) => { 
+        Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
         else { 
           console.log("updateStockPriceAndLikes was a success"); 
-          return responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
+          resolve();
         }
       })
+    }) //Promise
     };
     
     var updateStockPrice = (stock) => {
+      return new Promise((resolve, reject) => {
       console.log("stockPrice = " + stockPrice)
       Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                              {new: true}, function(err, doc) {
@@ -84,10 +88,12 @@ module.exports = function (app) {
         else if (!doc) { console.log("updateStockPrice failed"); }
         else { 
           console.log("updateStockPrice was a success");
-          return responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
+          resolve();
         }
       })
+    }) //Promise
     };
       
     var handleStock = (stock) => {
@@ -143,14 +149,14 @@ module.exports = function (app) {
     };
     
     var sendResponse = (response) => {
-      if (response.lenght > 1) { //user entered 2 stocks to compare
+      if (responseStock.lenght > 1) { //user entered 2 stocks to compare
         var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
         res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
       } else {
         console.log("responseStock = " + response);
-        return res.json({"stockData": response});
+        res.json({"stockData": response});
       };
     };
     
