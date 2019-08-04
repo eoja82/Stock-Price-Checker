@@ -54,7 +54,7 @@ module.exports = function (app) {
         else if (!doc) { console.log("addNewStock failed")} 
         else {
           console.log("addNewStock was a success"); 
-          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          return responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
         }
       });
@@ -67,7 +67,7 @@ module.exports = function (app) {
         else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
         else { 
           console.log("updateStockPriceAndLikes was a success"); 
-          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          return responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
         }
       })
@@ -81,7 +81,7 @@ module.exports = function (app) {
         else if (!doc) { console.log("updateStockPrice failed"); }
         else { 
           console.log("updateStockPrice was a success");
-          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          return responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
         }
       })
@@ -130,8 +130,6 @@ module.exports = function (app) {
     };
     
     var sendResponse = async (response) => {
-      await getStockPrice(stock1);
-      if (stock2) { await getStockPrice(stock2); }
       if (response.lenght > 1) { //user entered 2 stocks to compare
         var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
@@ -139,8 +137,7 @@ module.exports = function (app) {
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
       } else {
         console.log("responseStock = " + response);
-        res.json({"stockData": response});
-        
+        return res.json({"stockData": response});
       };
     };
     
