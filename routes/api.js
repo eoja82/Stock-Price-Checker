@@ -46,22 +46,25 @@ module.exports = function (app) {
     
     
 
-    var addNewStock = async (stock) => {
-      var newStock = await new Stock({stock: stock, price: stockPrice, likes: like});
+    var addNewStock = (stock) => {
+      return new Promise((resolve, reject) => { 
+      var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
       console.log(newStock);
       newStock.save( (err, doc) => {
         if (err) { console.log(err); }
         else if (!doc) { console.log("addNewStock failed")} 
         else {
           console.log("addNewStock was a success"); 
-          return responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
+          responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
           console.log(responseStock);
+          resolve();
         }
       });
+    }); //Promise
     };
     
-    var updateStockPriceAndLikes = async (stock) => {
-      await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
+    var updateStockPriceAndLikes = (stock) => {
+      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice, $inc: {likes: like}, $push: {ip: ip}},
                              {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPriceAndLikes failed"); }
@@ -73,10 +76,10 @@ module.exports = function (app) {
       })
     };
     
-    var updateStockPrice = async (stock) => {
+    var updateStockPrice = (stock) => {
       console.log("stockPrice = " + stockPrice)
-      await Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
-                             {new: true}, async function(err, doc) {
+      Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
+                             {new: true}, function(err, doc) {
         if (err) { console.log(err); }
         else if (!doc) { console.log("updateStockPrice failed"); }
         else { 
@@ -88,36 +91,43 @@ module.exports = function (app) {
     };
       
     var handleStock = (stock) => {
+      return new Promise((resolve, reject) => { 
       if (stock) {
        if (ip) {   // like is checked
-       Stock.findOne({stock: stock}, function(err, doc) {
+       Stock.findOne({stock: stock}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
-           addNewStock(stock); //not in db, add new
+           await addNewStock(stock); //not in db, add new
+           resolve(); 
           } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            updateStockPriceAndLikes(stock);   //and push ip to db
+            await updateStockPriceAndLikes(stock);   //and push ip to db
+            resolve();
           } else {
-            updateStockPrice(stock);
+            await updateStockPrice(stock);
+            resolve();
           }
         })
        } else if (!ip) {   //like is not checked
-        Stock.findOne({stock: stock}, function(err, doc) {
+        Stock.findOne({stock: stock}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) {
-            addNewStock(stock);
+            await addNewStock(stock);
+            resolve();
           } else {
-            updateStockPrice(stock);
+            await updateStockPrice(stock);
+            resolve();
           }
         });
       }
     };
+    })  
   }; 
     
     var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
         return new Promise( (resolve, reject) => { 
-          request(url, {json: true}, function(err, resp, body) {
+          request(url, {json: true}, async function(err, resp, body) {
             if (err) { console.log(err); }
             else if (!body["Global Quote"]["05. price"]) {
               res.send("please enter a valid stock");
@@ -125,7 +135,7 @@ module.exports = function (app) {
             } else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
             stockPrice = body["Global Quote"]["05. price"];
-            handleStock(stock);
+            await handleStock(stock);
             resolve();
             } 
           })
