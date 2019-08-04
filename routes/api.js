@@ -138,13 +138,12 @@ module.exports = function (app) {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           stockPrice = body["Global Quote"]["05. price"];
           await handleStock(stock);
-          if (stock2) {handle}
         } 
       })
     };
     
     var begin = async () => {
-      await getStockPrice(stock1);
+      if (stock1) await getStockPrice(stock1);  //use var
       if (stock2) await getStockPrice(stock2);
       await sendResponse(responseStock)   
     };
