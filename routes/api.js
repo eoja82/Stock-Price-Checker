@@ -53,8 +53,9 @@ module.exports = function (app) {
         await res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
       } else {
+        console.log("responseStock = " + response);
         await res.json({"stockData": response});
-        console.log("responseStock = " + response)
+        
       };
     };
 
@@ -128,31 +129,24 @@ module.exports = function (app) {
     var getStockPrice = async (stock) => {  
       var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
                 + stock + "&apikey=" + process.env.ALPHA_API_KEY;
-        await request(url, {json: true}, function(err, resp, body) {
+        await request(url, {json: true}, async function(err, resp, body) {
         if (err) { console.log(err); }
           else if (!body["Global Quote"]["05. price"]) {
-            res.send("please enter a valid stock");
+            await res.send("please enter a valid stock");
           }
         else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
           stockPrice = body["Global Quote"]["05. price"];
-          handleStock(stock);
+          await handleStock(stock);
+          if (stock2) {handle}
         } 
       })
     };
     
     var begin = async () => {
-      await getStockPrice(stock1)
-        .then( async () => { //which calls handleStock, which calls updateStockPrice if entering goog
-          if (stock2) {
-            await getStockPrice(stock2)
-          } else { 
-            await sendResponse(responseStock); 
-          } else {
-            await sendResponse(responseStock);
-          }
-        })
-          
+      await getStockPrice(stock1);
+      if (stock2) await getStockPrice(stock2);
+      await sendResponse(responseStock)   
     };
    
     begin();
