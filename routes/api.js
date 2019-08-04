@@ -149,8 +149,10 @@ module.exports = function (app) {
     };
     
     var sendResponse = (response) => {
-      if (responseStock.lenght > 1) { //user entered 2 stocks to compare
-        var likes0 = responseStock[0].likes - response[1].likes; //compare relative likes
+      var num = responseStock.length;
+      console.log("num = " + num)
+      if (num > 1) { //user entered 2 stocks to compare
+        var likes0 = response[0].likes - response[1].likes; //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
         res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
