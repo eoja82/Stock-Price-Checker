@@ -130,8 +130,7 @@ module.exports = function (app) {
   }; 
     
     var getStockPrice = async (stock) => {  
-      var url = "https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol="
-                + stock + "&apikey=" + process.env.ALPHA_API_KEY;
+      var url = "https://api.iextrading.com/1.0/stock/'+stock+'/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
             if (err) { console.log(err); }
