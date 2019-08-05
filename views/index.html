@@ -12,10 +12,10 @@
   <body>
     <header>
       <h1>
-        ISQA_5 - Nasdaq Stock Price Checker
+        ISQA_5 - Stock Price Checker
       </h1>
     </header>
-    <div id='userstories' style='margin-left: 5%; margin-top: 5%'>
+    <div id="userstories" style="margin-left: 5%; margin-top: 5%">
       <h3>User Stories</h3>
       <ol>
         <li>Set the content security policies to only allow loading of scripts and css from your server.</li>
@@ -35,12 +35,12 @@
       <code>{"stockData":{"stock":"GOOG","price":"786.90","likes":1}}</code><br>
       <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
     </div>
-    <hr style='margin: 50px'>
-    <div id='testui' style='margin-left: 5%'>
+    <hr style="margin: 50px">
+    <div id="testui" style="margin-left: 5%">
       <h2 style="text-align: left">Front-End:</h2>
       <h3>Get single price and total likes</h3>
       <form id="testForm2" class="border">
-        <input type="text" name="stock1" placeholder="goog" style="width: 100px" required=''>
+        <input type="text" name="stock1" placeholder="goog" style="width: 100px" required="">
         <input type="checkbox" name="like" value=true> Like?<br>
         <button type="submit">Get Price!</button>
       </form>
@@ -51,7 +51,7 @@
         <input type="checkbox" name="like" value=true> Like both?<br>
         <button type="submit">Get Price!</button>
       </form>
-      <code id="jsonResult"code>
+      <code id="jsonResult"code></code>
       <p>
         Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>.
         View <a href="https://iextrading.com/api-exhibit-a/">IEX's Terms of Use</a>.
