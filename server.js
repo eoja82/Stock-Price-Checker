@@ -27,7 +27,7 @@ app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js"],
-    styleSrc: ["'self'", "/public/style.css", "/routes/api.js"]
+    styleSrc: ["'self'"]
   },
   browserSniff: false
 }))
