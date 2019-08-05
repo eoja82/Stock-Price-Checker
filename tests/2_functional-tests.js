@@ -16,6 +16,7 @@ chai.use(chaiHttp);
 suite('Functional Tests', function() {
     
     suite('GET /api/stock-prices => stockData object', function() {
+      var stockLikes = 0;
       
       test('1 stock', function(done) {
        chai.request(server)
@@ -40,6 +41,7 @@ suite('Functional Tests', function() {
           assert.equal(res.body.stockData[0].stock, "GOOG");
           assert.property(res.body.stockData[0], "price");
           assert.isAtLeast(res.body.stockData[0].likes, 1);
+          stockLikes = res.body.stockData[0].likes;
           done();
         });
       });
@@ -53,7 +55,7 @@ suite('Functional Tests', function() {
           assert.equal(res.body.stockData[0].stock, "GOOG");
           assert.property(res.body.stockData[0], "price");
           assert.property(res.body.stockData[0], "likes");
-          //not done
+          assert.equal(stockLikes, res.body.stockData[0].likes);
           done();
         });
       });
