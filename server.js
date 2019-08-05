@@ -23,14 +23,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(helmet.noCache());
 app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
-/*app.use(csp({
+app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js"],
     styleSrc: ["'self'", "/public/style.css", "/routes/api.js"]
   },
   browserSniff: false
-}))*/
+}))
 //Index page (static HTML)
 
 mongoose.connect(process.env.DATABASE, {useNewUrlParser: true},
