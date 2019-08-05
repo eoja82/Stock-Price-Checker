@@ -130,16 +130,16 @@ module.exports = function (app) {
   }; 
     
     var getStockPrice = async (stock) => {  
-      var url = "https://api.iextrading.com/1.0/stock/'+stock+'/book";
+      var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
             if (err) { console.log(err); }
-            else if (!body["Global Quote"]["05. price"]) {
+            else if (!body) {
               res.send("please enter a valid stock");
               reject();
             } else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-            stockPrice = body["Global Quote"]["05. price"];
+            stockPrice = JSON.parse(body).quotelatestPrice"];
             await handleStock(stock);
             resolve();
             } 
