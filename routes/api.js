@@ -129,7 +129,7 @@ module.exports = function (app) {
     })  
   }; 
     
-    var getStockPrice = async (stock) => {  
+    var getStockPrice = (stock) => {  
       var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
