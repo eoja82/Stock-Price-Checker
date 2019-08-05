@@ -23,9 +23,9 @@ suite('Functional Tests', function() {
         .query({stock1: 'goog'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.stockData.stock, "GOOG");
-          assert.property(res.body.stockData, "price");
-          assert.property(res.body.stockData, "likes");
+          assert.equal(res.body.stockData[0].stock, "GOOG");
+          assert.property(res.body.stockData[0], "price");
+          assert.property(res.body.stockData[0], "likes");
           //complete this one too
           done();
         });
@@ -37,9 +37,9 @@ suite('Functional Tests', function() {
         .query({stock1: 'goog', like: true})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.stockData.stock, "GOOG");
-          assert.property(res.body.stockData, "price");
-          assert.isAtLeast(res.body.stockData.likes, 1);
+          assert.equal(res.body.stockData[0].stock, "GOOG");
+          assert.property(res.body.stockData[0], "price");
+          assert.isAtLeast(res.body.stockData[0].likes, 1);
           done();
         });
       });
@@ -50,9 +50,9 @@ suite('Functional Tests', function() {
         .query({stock1: 'goog'})
         .end(function(err, res){
           assert.equal(res.status, 200);
-          assert.equal(res.body.stockData.stock, "GOOG");
-          assert.property(res.body.stockData, "price");
-          assert.property(res.body.stockData, "likes");
+          assert.equal(res.body.stockData[0].stock, "GOOG");
+          assert.property(res.body.stockData[0], "price");
+          assert.property(res.body.stockData[0], "likes");
           //not done
           done();
         });
