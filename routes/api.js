@@ -139,7 +139,7 @@ module.exports = function (app) {
               reject();
             } else {
           //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
-            stockPrice = JSON.parse(body).quotelatestPrice"];
+            stockPrice = body["quote"].latestPrice;
             await handleStock(stock);
             resolve();
             } 
