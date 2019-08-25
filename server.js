@@ -26,8 +26,8 @@ app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js", "'unsafe-inline'"],
-    styleSrc: ["'self'", "'unsafe-inline'"]
+    scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js", "/public/client.js", "'unsafe-inline'"],
+    styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", "'unsafe-inline'"]
   },
   browserSniff: false
 }))
