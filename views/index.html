@@ -17,17 +17,17 @@
       <h3>
         Check current stock prices - if you like a stock check the like box!
       </h3>
-    
+    <main>
     <div id="testui">
       <h5>Check a single stock price and total likes:</h5>
-      <form id="testForm2" class="border">
+      <form id="testForm2">
         <input type="text" name="stock1" placeholder="goog" style="width: 100px" required="">
         <input type="checkbox" name="like" value="true"> Like?<br>
         <button type="submit" class="btn btn-primary">Get Price!</button>
       </form>
       <code id="oneStock"></code>
       <h5>Compare two stock prices and their relative likes:</h5>
-      <form id="testForm" class="border">
+      <form id="testForm">
         <input type="text" name="stock1" placeholder="goog" style="width: 100px" required="">
         <input type="text" name="stock2" placeholder="msft" style="width: 100px" required="">
         <input type="checkbox" name="like" value="true"> Like both?<br>
@@ -48,6 +48,7 @@
         <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
       </p>
     </div>
+    </main>
     <footer>
        <p>
         Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>.
