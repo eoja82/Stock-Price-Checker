@@ -8,11 +8,11 @@
 
 'use strict';
 
-var expect = require('chai').expect;
+var expect      = require('chai').expect;
 var MongoClient = require('mongodb');
-var shortid  = require("shortid");
+var shortid     = require("shortid");
 var mongoose    = require('mongoose');
-var request = require("request");
+var request     = require("request");
 
 mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
 //var xhr = new XMLHttpRequest();
@@ -158,13 +158,11 @@ module.exports = function (app) {
       };
     };
     
-    var begin = async () => {  
+    (async () => {  
       await getStockPrice(stock1);
       if (stock2) { await getStockPrice(stock2); }  
       sendResponse(responseStock);
-    };
-   
-    begin();
+    })();
                                   
     });
     
