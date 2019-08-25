@@ -17,16 +17,6 @@
       <h3>
         Check current stock prices - if you like a stock check the like box!
       </h3>
-      <button class="btn btn-danger" id="showExamples">Show Examples</button>
-    <div id="examples"> 
-      <code>/api/stock-prices?stock=goog</code><br>
-      <code>/api/stock-prices?stock=goog&amp;like=true</code><br>
-      <code>/api/stock-prices?stock=goog&amp;stock=msft</code><br>
-      <code>/api/stock-prices?stock=goog&amp;stock=msft&amp;like=true</code><br>
-      <h3>Example return:</h3>
-      <code>{"stockData":{"stock":"GOOG","price":"786.90","likes":1}}</code><br>
-      <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
-    </div>
     
     <div id="testui">
       <h3>Check a single stock price and total likes:</h3>
@@ -44,11 +34,23 @@
         <button type="submit">Get Price!</button>
       </form>
       <code id="twoStocks"></code>
+    </div>
+    
+    <button class="btn btn-danger" id="showExamples">Show Examples</button>
+    <div id="examples"> 
+      <code>/api/stock-prices?stock=goog</code><br>
+      <code>/api/stock-prices?stock=goog&amp;like=true</code><br>
+      <code>/api/stock-prices?stock=goog&amp;stock=msft</code><br>
+      <code>/api/stock-prices?stock=goog&amp;stock=msft&amp;like=true</code><br>
+      <h3>Example return:</h3>
+      <code>{"stockData":{"stock":"GOOG","price":"786.90","likes":1}}</code><br>
+      <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
+    </div>
       <p>
         Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>.
         View <a href="https://iextrading.com/api-exhibit-a/">IEX's Terms of Use</a>.
         </p>
-    </div>
+    
    
     <!-- Your web-app is https, so your scripts need to be too -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
