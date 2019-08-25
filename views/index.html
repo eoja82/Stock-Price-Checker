@@ -28,15 +28,15 @@
       <code>{"stockData":{"stock":"GOOG","price":"786.90","likes":1}}</code><br>
       <code>{"stockData":[{"stock":"MSFT","price":"62.30","rel_likes":-1},{"stock":"GOOG","price":"786.90","rel_likes":1}]}</code>
     </div>
-    <hr style="margin: 50px">
-    <div id="testui" style="margin-left: 5%">
-      <h2 style="text-align: left">Front-End:</h2>
+    
+    <div id="testui">
       <h3>Check a single stock price and total likes:</h3>
       <form id="testForm2" class="border">
         <input type="text" name="stock1" placeholder="goog" style="width: 100px" required="">
         <input type="checkbox" name="like" value="true"> Like?<br>
         <button type="submit">Get Price!</button>
       </form>
+      <code id="oneStock"></code>
       <h3>Compare two stock prices and their relative likes:</h3>
       <form id="testForm" class="border">
         <input type="text" name="stock1" placeholder="goog" style="width: 100px" required="">
@@ -44,13 +44,13 @@
         <input type="checkbox" name="like" value="true"> Like both?<br>
         <button type="submit">Get Price!</button>
       </form>
-      <code id="jsonResult"></code>
+      <code id="twoStocks"></code>
       <p>
         Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>.
         View <a href="https://iextrading.com/api-exhibit-a/">IEX's Terms of Use</a>.
         </p>
     </div>
-    <hr style="margin: 50px; margin-top: 200px">
+   
     <!-- Your web-app is https, so your scripts need to be too -->
     <script src="https://code.jquery.com/jquery-2.2.1.min.js"
             integrity="sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00="
@@ -63,7 +63,7 @@
             type: 'get',
             data: $('#testForm').serialize(),
             success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
+              $('#twoStocks').text(JSON.stringify(data));
             }
           });
           e.preventDefault();
@@ -74,7 +74,7 @@
             type: 'get',
             data: $('#testForm2').serialize(),
             success: function(data) {
-              $('#jsonResult').text(JSON.stringify(data));
+              $('#oneStock').text(JSON.stringify(data));
             }
           });
           e.preventDefault();
