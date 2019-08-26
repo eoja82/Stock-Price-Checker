@@ -26,8 +26,8 @@ app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js", "/public/client.js", "'unsafe-inline'", "https://cdn.glitch.com/e34f8005-f8c3-4973-9ca2-57ae8aff669e%2Fbackground.jpg?v=1566778354371"],
-    styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", "/public/style.css", "https://cdn.glitch.com/e34f8005-f8c3-4973-9ca2-57ae8aff669e%2Fbackground.jpg?v=1566778354371", "'unsafe-inline'"]
+    scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js", "/public/client.js", "'unsafe-inline'", "https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg"],
+    styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", "/public/style.css", "https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg", "'unsafe-inline'"]
   },
   browserSniff: false
 }))
