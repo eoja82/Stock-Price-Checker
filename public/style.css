@@ -1,48 +1,54 @@
 body {
-        background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);
-      }
-      header {
-          margin: 1% 5% 1% 5%;
-          padding: 1% .5%;
-          border-radius: 5px;
-          text-align: center;
-          background-color: rgb(32, 113, 219, .9);
-          color: white;
-        }
-        h3 {
-          text-align: center;
-        }
-        main {
-          margin-left: 5%;
-          margin-right: 5%;
-          border-radius: 5px;
-          background-color: rgb(255, 255, 255, .9);
-        }
-        #testui {
-          margin: 1% 5%;
-        }
-        h5 {
-          padding-top: 1%;
-        }
-        .stock {
-          margin: 1%;
-          width: 100px;
-        }
-        #showExamples{
-          margin: 1% 5%;
-        }
-        #examples {
-          padding: 1% 5% 1.5% 5%;
-        }
-        footer {
-          margin: 1% 5% 1% 5%;
-          padding: 1% .5%;
-          border-radius: 5px;
-          text-align: center;
-          background-color: rgb(32, 113, 219, .9);
-          color: white;
-        }
-        button {
-          margin-left: 1%;
-          padding: 5px 0px;
-        }
+background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);
+}
+header {
+  margin: 1% 5% 1% 5%;
+  padding: 1% .5%;
+  border-radius: 5px;
+  text-align: center;
+  background-color: rgb(32, 113, 219, .9);
+  color: white;
+}
+h3 {
+  text-align: center;
+}
+main {
+  margin-left: 5%;
+  margin-right: 5%;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255, .9);
+}
+#testui {
+  margin: 1% 5%;
+}
+h5 {
+  padding-top: 1%;
+}
+.stock {
+  margin: 1%;
+  width: 100px;
+}
+#showExamples{
+  margin: 1% 5%;
+}
+#examples {
+  padding: 1% 5% 1.5% 5%;
+}
+footer {
+  margin: 1% 5% 1% 5%;
+  padding: 1% .5%;
+  border-radius: 5px;
+  text-align: center;
+  background-color: rgb(32, 113, 219, .9);
+  color: white;
+}
+button {
+  margin-left: 1%;
+  padding: 5px 0px;
+}
+@media only screen and (max-width: 400px) {
+  #testForm #testForm2 {
+    display: flex;
+    flex-direction: column;
+  }
+}

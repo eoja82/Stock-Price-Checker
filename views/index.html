@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/public/style.css">
   </head>
   <body>
-   <header>
+    <header>
           <h1>Stock Price Checker</h1>
           <h3>Check current stock prices - if you like a stock check the like box!</h3>
       </header>
@@ -21,7 +21,7 @@
           <h5>Check a single stock price and total likes:</h5>
           <form id="testForm2">
             <input type="text" name="stock1" placeholder="goog" class="stock" required="">
-            <input type="checkbox" name="like" value="true"> Like?<br>
+            <div><input type="checkbox" name="like" value="true"> Like?</div><br>
             <button type="submit" class="btn btn-primary">Get Price!</button>
           </form>
           <code id="oneStock"></code>
@@ -29,7 +29,7 @@
           <form id="testForm">
             <input type="text" name="stock1" placeholder="goog" class="stock" required="">
             <input type="text" name="stock2" placeholder="msft" class="stock" required="">
-            <input type="checkbox" name="like" value="true"> Like both?<br>
+            <div><input type="checkbox" name="like" value="true"> Like both?</div><br>
             <button type="submit" class="btn btn-primary">Get Price!</button>
           </form>
           <code id="twoStocks"></code>
