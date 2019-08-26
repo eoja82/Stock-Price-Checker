@@ -1,19 +1,28 @@
 body {
-  background-image: url(https://cdn.glitch.com/e34f8005-f8c3-4973-9ca2-57ae8aff669e%2Fimage.png?v=1566774549892);
+  background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);
 }
 header {
-  text-align: center;
-}
-h3 {
-  text-align: center;
-}
-main {
-  margin-left: 5%;
-  margin-right: 5%;
-}
-form {
-  
-}
-footer {
-  text-align: center;
-}
+          margin: 1% 5% 1% 5%;
+          border-radius: 5px;
+          text-align: center;
+          background-color: rgb(32, 113, 219, .9);
+          color: white;
+        }
+        h3 {
+          text-align: center;
+        }
+        main {
+          margin-left: 5%;
+          margin-right: 5%;
+          border-radius: 5px;
+          background-color: rgb(255, 255, 255, .9);
+        }
+        #testui {
+          margin-right: 10%;
+        }
+        footer {
+          text-align: center;
+        }
+        button {
+          padding: 5px 0px;
+        }
