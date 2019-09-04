@@ -23,14 +23,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(helmet.noCache());
 app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
-/*app.use(csp({
+app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js", "/public/client.js", "'unsafe-inline'", "https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg"],
-    styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", "/public/style.css", "https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg", "'unsafe-inline'"]
+    scriptSrc: ["'self'", "https://code.jquery.com/jquery-2.2.1.min.js", "/public/client.js", "'unsafe-inline'"],
+    styleSrc: ["'self'", "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css", "/public/style.css", "'unsafe-inline'"],
+    imgSrc: ["https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg"]
   },
   browserSniff: false
-}))*/
+}));
 //Index page (static HTML)
 
 mongoose.connect(process.env.DATABASE, {useNewUrlParser: true},
