@@ -1,6 +1,13 @@
+:root {
+  --c-evergreen: rgb(47, 64, 13);
+  --c-limeGreen: rgb(140, 91, 38);
+  --c-paleGreen: rgb(168, 202, 101);
+  --c-tan: rgb(232, 229, 176);
+  --c-aqua: rgb(65, 145, 132);
+}
 body {
   /*background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);*/
-  background-color: rgb(220, 220, 220);
+  background-color: var(--c-paleGreen);
 }
 header {
   margin: 2rem 2rem 0;
