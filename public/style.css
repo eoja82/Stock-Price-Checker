@@ -2,8 +2,8 @@ body {
 background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);
 }
 header {
-  margin: 1% 5% 1% 5%;
-  padding: 1% .5%;
+  margin: 1.5rem 4rem;
+  padding: 1.5rem;
   border-radius: 5px;
   text-align: center;
   background-color: rgb(32, 113, 219, .9);

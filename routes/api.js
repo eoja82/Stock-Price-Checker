@@ -15,8 +15,6 @@ var mongoose    = require('mongoose');
 var request     = require("request");
 
 mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
-//var xhr = new XMLHttpRequest();
-//const CONNECTION_STRING = process.env.DB; //MongoClient.connect(CONNECTION_STRING, function(err, db) {});
 
 module.exports = function (app) {
   
@@ -32,16 +30,12 @@ module.exports = function (app) {
   app.route('/api/stock-prices')
     .get(function (req, res){
     var stock1 = req.query.stock1.toUpperCase();
-    var stock2; //if stock2 compare stock prices
-    if (req.query.stock2) { stock2 = req.query.stock2.toUpperCase();}
+    var stock2;          //if stock2 compare stock prices
+    if (req.query.stock2) { stock2 = req.query.stock2.toUpperCase(); }
     var like = req.query.like ? 1 : 0;
-    //console.log("like " + like)
     var ip = like ? req.ip : null;
-    //console.log("ip is " + ip);
     var stockPrice;
     var responseStock = [];
-    
-    
 
     var addNewStock = (stock) => {
       return new Promise((resolve, reject) => { 
@@ -57,7 +51,7 @@ module.exports = function (app) {
           resolve();
         }
       });
-    }); //Promise
+    }); // end Promise
     };
     
     var updateStockPriceAndLikes = (stock) => {
@@ -73,7 +67,7 @@ module.exports = function (app) {
           resolve();
         }
       })
-    }) //Promise
+    }) // end Promise
     };
     
     var updateStockPrice = (stock) => {
@@ -90,20 +84,20 @@ module.exports = function (app) {
           resolve();
         }
       })
-    }) //Promise
+    }) // end Promise
     };
       
     var handleStock = (stock) => {
       return new Promise((resolve, reject) => { 
       if (stock) {
-       if (ip) {   // like is checked
+       if (ip) {       // like is checked
        Stock.findOne({stock: stock}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
-           await addNewStock(stock); //not in db, add new
+           await addNewStock(stock);   //not in db, add new
            resolve(); 
-          } else if (doc.ip.indexOf(ip) < 0) {  //ip not found
-            await updateStockPriceAndLikes(stock);   //and push ip to db
+          } else if (doc.ip.indexOf(ip) < 0) {    //ip not found
+            await updateStockPriceAndLikes(stock);     //and push ip to db
             resolve();
           } else {
             await updateStockPrice(stock);
@@ -135,18 +129,17 @@ module.exports = function (app) {
               res.send("please enter a valid stock");
               reject();
             } else {
-          //console.log("stockPrice = " + body["Global Quote"]["05. price"]); //correctly logs stock price
             stockPrice = body["quote"].latestPrice;
             await handleStock(stock);
             resolve();
             } 
           })
-        }) //Promise
+        }) // end Promise
     };
     
     var sendResponse = (response) => {
-      if (responseStock.length > 1) { //user entered 2 stocks to compare
-        var likes0 = response[0].likes - response[1].likes; //compare relative likes
+      if (responseStock.length > 1) {   //user entered 2 stocks to compare
+        var likes0 = response[0].likes - response[1].likes;   //compare relative likes
         var likes1 = response[1].likes - response[0].likes;
         res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
