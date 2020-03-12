@@ -8,18 +8,23 @@ header {
   border-radius: 5px 5px 0 0;
   text-align: center;
   /* background-color: rgb(32, 113, 219, .9); */
-  /*background-color: rgb(200, 200, 200, .9);*/
-  color: rgb(5, 242, 175);
+  background-color: rgb(240, 240, 240, .9);
+  
 }
 h1 {
   font-size: 3em;
   font-weight: bold;
+  color: rgb(5, 108, 242);
 }
 h3 {
-  font-size: 1.5em;
+  font-size: 1.2em;
+}
+hr {
+  
+  margin: 0;
 }
 main {
-  background-color: rgb(200, 200, 200, .9);
+  background-color: rgb(240, 240, 240, .9);
   margin:  0 2rem;
   padding: 0 2rem 1.5rem;
   border-radius: 0 0 5px 5px;
@@ -29,6 +34,9 @@ main {
 }
 h5 {
   padding-top: 2rem;
+  color: rgb(5, 108, 242);
+  font-weight: bold;
+  font-size: 1.7em;
 }
 form {
   padding-bottom: 1.5rem;
