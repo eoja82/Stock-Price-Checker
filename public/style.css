@@ -22,10 +22,13 @@ main {
   background-color: rgb(255, 255, 255, .9);
 }
 #testui {
-  padding: 0 4rem 1.5rem;
+  padding: 0 4rem;
 }
 h5 {
   padding-top: 2rem;
+}
+form {
+  padding-bottom: 1.5rem;
 }
 .stock {
   margin-top: .5em;
@@ -33,6 +36,9 @@ h5 {
 }
 button[type=submit] {
   margin-left: .75rem;
+}
+#oneStock, #twoStocks {
+  padding-top: 1rem;
 }
 #showExamples{
   margin: 1.5rem 4rem;
