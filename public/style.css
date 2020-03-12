@@ -8,8 +8,8 @@ header {
   border-radius: 5px 5px 0 0;
   text-align: center;
   /* background-color: rgb(32, 113, 219, .9); */
-  background-color: rgb(200, 200, 200, .9);
-  color: black;
+  /*background-color: rgb(200, 200, 200, .9);
+  color: rgb(5, 242, 175);
 }
 h1 {
   font-size: 3em;
@@ -55,11 +55,14 @@ button[type=submit] {
   background-color: white;
 }
 footer {
+  width: 100%;
   margin: 1.5rem 0 0 0;
-  padding: 1.5rem;
+  padding: .4rem;
   text-align: center;
   background-color: rgb(32, 113, 219, .9);
   color: white;
+  position: fixed;
+  bottom: 0;
 }
 footer p {
   margin: 0;
