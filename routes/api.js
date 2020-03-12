@@ -23,11 +23,8 @@ module.exports = function (app) {
   var stockSchema = new mongoose.Schema({
     stock: String,
     price: String,
-    ip: {type: [String],
-         default: []},
-    likes: {
-      type: Number,
-      default: 0}
+    ip: { type: [String], default: [] },
+    likes: { type: Number, default: 0 }
   });
   
   var Stock = mongoose.model("Stock", stockSchema);
