@@ -1,5 +1,6 @@
 body {
-background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);
+/*background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);*/
+  background-color: rgb(220, 220, 220);
 }
 header {
   /*margin: 1.5rem 4rem 0 4rem;*/
@@ -7,8 +8,8 @@ header {
   /*border-radius: 5px 5px 0 0;*/
   text-align: center;
   /* background-color: rgb(32, 113, 219, .9); */
-  background-color: rgb(46, 46, 46, .8);
-  color: white;
+  /*background-color: rgb(46, 46, 46, .8);*/
+  color: black;
 }
 h1 {
   font-size: 3em;
@@ -18,9 +19,9 @@ h3 {
   font-size: 1.5em;
 }
 main {
-  /*margin: 0 4rem;*/
-  /*border-radius: 0 0 5px 5px;*/
-  background-color: rgb(46, 46, 46, .8);
+  background-color: rgb(200, 200, 200);
+  margin:  0 2rem;
+  border-radius: 5px;
 }
 #testui {
   padding: 0 4rem;
@@ -45,7 +46,9 @@ button[type=submit] {
   margin: 1.5rem 4rem;
 }
 #examples {
-  padding: 0 4rem 1.5rem;
+  margin: 4rem 1rem;
+  padding: 1.5rem 4rem;
+  background-color: white;
 }
 footer {
   margin: 1.5rem 0 0 0;
