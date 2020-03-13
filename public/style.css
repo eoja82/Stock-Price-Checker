@@ -126,6 +126,14 @@ footer a {
   }
   .stock {
     margin: 0 .3rem 0;
+    width: 100%;
+  }
+  input[type=checkbox] {
+    margin: .3rem;
+  }
+  button[type=submit] {
+    margin: .3rem
+    display: inline;
   }
   #exampleDiv {
     display: flex;
@@ -140,9 +148,8 @@ footer a {
   }
   form {
     display: flex;
-    flex-direction: column
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
+    
   }
   footer {
     padding: 0 1rem;
