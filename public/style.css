@@ -36,13 +36,13 @@ main {
 #testui {
   padding: 0 4rem;
 }
+#checkOneStock, #checkTwoStocks {
+  padding: 1rem 0;
+}
 h5 {
-  padding-top: 2rem;
-  font-weight: bold;
   font-size: 1.7em;
 }
 form {
-  padding: 1rem;
   background-color: var(--c-tan);
   display: inline;
 }
