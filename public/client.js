@@ -3,5 +3,5 @@ function hideExamples() {
   x.style.display === "none" ? x.style.display = "block" : x.style.display = "none";
   x.style.display === "block" ?
     document.getElementById("exampleButton").innerHTML = "Hide Examples" :
-    document.getElementById("exampleButton").innerHTML = "Show Examples"; 
+    document.getElementById("exampleButton").innerHTML = "Show Example Usage"; 
 };

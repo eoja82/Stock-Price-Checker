@@ -44,6 +44,7 @@ form {
   display: inline;
 }
 .stock {
+  padding-left: .3rem;
   margin-top: .5em;
   width: 100px;
 }
@@ -72,7 +73,7 @@ button[type=submit] {
   text-align: center;
   margin: 1.5rem;
 }
-#showExamples button {
+#exampleButton {
   background-color: #2884df;
   color: white;
   border: none;
@@ -81,7 +82,7 @@ button[type=submit] {
   margin-top: 2.5rem;
 }
 #examples {
-  padding: 1.5rem;
+  padding: 1.5rem 4rem;
   line-height: 1.6;
   background-color: white;
 }
@@ -123,6 +124,9 @@ footer a {
   #testui {
     padding: 0 1.5rem;
   }
+  .stock {
+    margin: 0 .3rem 0;
+  }
   #exampleDiv {
     display: flex;
     margin: 1rem auto;
@@ -136,7 +140,9 @@ footer a {
   }
   form {
     display: flex;
+    flex-direction: column
     flex-wrap: wrap;
+    align-items: center;
   }
   footer {
     padding: 0 1rem;
