@@ -27,11 +27,11 @@ main {
 #testui {
   padding: 0 4rem;
 }
-#checkOneStock, #checkTwoStocks {
+#checkOneStock {
   padding: 1rem 0;
 }
 #checkTwoStocks {
-  padding: 3rem 0 2.5rem;
+  padding: 1rem 0;
 }
 h5 {
   font-size: 1.7em;
@@ -79,6 +79,7 @@ button[type=submit] {
   border: none;
   border-radius: 5px;
   padding: .3rem .6rem;
+  margin-top: 3rem;
 }
 #examples {
   padding: 1.5rem;
@@ -87,25 +88,18 @@ button[type=submit] {
 }
 footer {
   width: 100%;
-  margin: 1.5rem 0 0 0;
+  margin: 1.5rem 0;
   padding: .4rem;
   text-align: center;
-  background-color: rgb(77, 77, 77);
-  position: fixed;
-  bottom: 0;
-  
 }
 footer p, a {
-  color: lightgray;
+  color: gray;
 }
 footer p {
   margin: 0;
 }
 footer a {
   text-decoration: underline;
-}
-footer a:hover {
-  color: white;
 }
 @media only screen and (max-width: 400px) {
   #testForm #testForm2 {
