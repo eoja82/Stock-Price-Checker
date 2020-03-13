@@ -14,7 +14,8 @@ var shortid     = require("shortid");
 var mongoose    = require('mongoose');
 var request     = require("request");
 
-mongoose.set('useFindAndModify', false);  //to use findOneAndUpdate
+// to use findOneAndUpdate
+mongoose.set('useFindAndModify', false);  
 
 module.exports = function (app) {
   
