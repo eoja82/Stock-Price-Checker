@@ -1,12 +1,15 @@
 :root {
   --c-evergreen: rgb(47, 64, 13);
-  --c-limeGreen: rgb(140, 91, 38);
+  --c-limeGreen: rgb(140, 191, 38);
   --c-paleGreen: rgb(168, 202, 101);
   --c-tan: rgb(232, 229, 176);
   --c-aqua: rgb(65, 145, 132);
 }
 body {
   /*background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);*/
+  background-color: var(--c-tan);
+}
+header, main {
   background-color: var(--c-paleGreen);
 }
 header {
@@ -14,14 +17,13 @@ header {
   padding: 1.5rem;
   border-radius: 5px 5px 0 0;
   text-align: center;
-  /* background-color: rgb(32, 113, 219, .9); */
-  background-color: rgb(250, 250, 250, .9);
-  
+}
+h1, h5 {
+  color: var(--c-evergreen);
 }
 h1 {
   font-size: 3em;
   font-weight: bold;
-  color: rgb(117, 64, 255);
 }
 h3 {
   font-size: 1.2em;
@@ -31,7 +33,6 @@ hr {
   margin: 0 4rem;
 }
 main {
-  background-color: rgb(250, 250, 250, .9);
   margin:  0 2rem;
   padding: 0 2rem 1.5rem;
   border-radius: 0 0 5px 5px;
@@ -41,13 +42,12 @@ main {
 }
 h5 {
   padding-top: 2rem;
-  color: rgb(117, 64, 255);
   font-weight: bold;
   font-size: 1.7em;
 }
 form {
   padding: 1rem;
-  background-color: rgb(5, 136, 248);
+  background-color: var(--c-limeGreen);
 }
 .stock {
   margin-top: .5em;
