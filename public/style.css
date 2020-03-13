@@ -1,19 +1,9 @@
-:root {
-  --c-evergreen: rgb(47, 64, 13);
-  --c-limeGreen: rgb(140, 191, 38);
-  --c-paleGreen: rgb(168, 202, 101);
-  --c-tan: rgb(232, 229, 176);
-  --c-aqua: #326F65;
-}
-body {
-  /*background-image: url(https://www.kiplinger.com/slideshow/investing/T052-S001-10-small-cap-growth-stocks-to-buy-now/images/intro.jpg);*/
-}
 header {
   padding: 1.5rem;
   text-align: center;
 }
 h1 {
-  font-size: 3.5em;
+  font-size: 3.7em;
   font-weight: bold;
   color: #086acc;
 }
@@ -30,8 +20,7 @@ hr {
 }
 main {
   margin:  0 2rem;
-  padding: 0 2rem 1.5rem;
-  border-radius: 0 0 5px 5px;
+  padding: 0 2rem;
 }
 #testui {
   padding: 0 4rem;
@@ -41,10 +30,13 @@ main {
 }
 h5 {
   font-size: 1.7em;
+  padding-bottom: 1rem;
 }
 form {
-  padding: 1rem;
-  background-color: var(--c-tan);
+  padding: 1.5rem;
+  margin-top: .75rem;
+  background-color: #8bc4fd;
+  border-radius: 5px;
   display: inline;
 }
 .stock {
@@ -63,10 +55,11 @@ button[type=submit] {
   justify-content: center;
   flex-direction: column;
   margin: 1rem auto;
+  padding: 1.5rem;
 }
 #showExamples{
-  margin-bottom: 1rem;
-  display: ;
+  text-align: center;
+  margin: 1.5rem;
 }
 #examples {
   padding: 1.5rem;
