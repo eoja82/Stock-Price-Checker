@@ -18,30 +18,36 @@
     </header>
           
     <main>
-    <div id="testui">
-      <div id="checkOneStock">
-        <h5>Check a single stock price and total likes:</h5>
-        <form id="testForm2">
-          <input type="text" name="stock1" placeholder="goog" class="stock" required="">
-          <input type="checkbox" name="like" value="true"> Like?
-          <button type="submit" class="btn btn-primary btn-sm">Get Price!</button>
-        </form>
-        <code id="oneStock"></code>
+      <div id="testui">
+        <div id="checkOneStock">
+          <h5>Check a single stock price and total likes:</h5>
+          <form id="testForm2">
+            <input type="text" name="stock1" placeholder="goog" class="stock" required="">
+            <input type="checkbox" name="like" value="true"> Like?
+            <button type="submit" class="btn btn-primary btn-sm">Get Price!</button>
+          </form>
+          <br>
+          <code id="oneStock"></code>
+        </div>
+        <div id="checkTwoStocks">
+          <h5>Compare two stock prices and their relative likes:</h5>
+          <form id="testForm">
+            <input type="text" name="stock1" placeholder="goog" class="stock" required="">
+            <input type="text" name="stock2" placeholder="msft" class="stock" required="">
+            <input type="checkbox" name="like" value="true"> Like both?
+            <button type="submit" class="btn btn-primary btn-sm">Get Price!</button>
+          </form>
+          <br>
+          <code id="twoStocks"></code>
+        </div>
       </div>
-      <div id="checkTwoStocks">
-        <h5>Compare two stock prices and their relative likes:</h5>
-        <form id="testForm">
-          <input type="text" name="stock1" placeholder="goog" class="stock" required="">
-          <input type="text" name="stock2" placeholder="msft" class="stock" required="">
-          <input type="checkbox" name="like" value="true"> Like both?
-          <button type="submit" class="btn btn-primary btn-sm">Get Price!</button>
-        </form>
-        <code id="twoStocks"></code>
-      </div>
-    </div>
+    </main>
+    
+    <hr>
+    
+    <div id="exampleDiv">
       
-    <div id="exampleDiv"> 
-      <button class="btn btn-info btn-sm" id="showExamples" onclick="hideExamples()">Show Examples</button>
+      
       <div id="examples" style="display: none">
         <p>
           If you check one stock price, e.g., "goog":<br>
@@ -54,7 +60,6 @@
         </p>
       </div>
     </div>
-    </main>
     
     <footer>
        <p>
