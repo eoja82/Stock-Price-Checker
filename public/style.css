@@ -9,8 +9,7 @@ h1 {
 }
 h3 {
   font-size: 1.2em;
-  color:
-  #737373;
+  color: #737373;
   margin: 0;
   padding-bottom: 1.5rem;
 }
@@ -28,14 +27,17 @@ main {
 #checkOneStock, #checkTwoStocks {
   padding: 1rem 0;
 }
+#checkTwoStocks {
+  padding: 3rem 0 2.5rem;
+}
 h5 {
   font-size: 1.7em;
   padding-bottom: 1rem;
 }
 form {
-  padding: 1.5rem;
+  padding: 2rem;
   margin-top: .75rem;
-  background-color: #8bc4fd;
+  background-color: #d1e8ff;
   border-radius: 5px;
   display: inline;
 }
@@ -45,6 +47,11 @@ form {
 }
 button[type=submit] {
   margin-left: .75rem;
+  background-color: #008807;;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: .3rem .6rem;
 }
 #oneStock, #twoStocks {
   padding-top: 1rem;
@@ -60,6 +67,13 @@ button[type=submit] {
 #showExamples{
   text-align: center;
   margin: 1.5rem;
+}
+#showExamples button {
+  background-color: #2884df;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: .3rem .6rem;
 }
 #examples {
   padding: 1.5rem;
