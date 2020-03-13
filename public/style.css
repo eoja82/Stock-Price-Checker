@@ -1,3 +1,6 @@
+body {
+  box-sizing: border-box;
+}
 header {
   padding: 1.5rem;
   text-align: center;
@@ -55,6 +58,8 @@ button[type=submit] {
 }
 #oneStock, #twoStocks {
   padding-top: 1rem;
+  margin-top: 1.5rem;
+  display: block;
 }
 #exampleDiv {
   display: flex;
