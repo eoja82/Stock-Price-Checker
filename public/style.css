@@ -36,6 +36,9 @@ h5 {
   font-size: 1.7em;
   padding-bottom: 1rem;
 }
+.formDiv {
+  display: flex;
+}
 form {
   padding: 2rem;
   margin-top: .75rem;
@@ -43,6 +46,7 @@ form {
   border-radius: 5px;
   display: flex;
   align-items: center;
+  
 }
 .stock {
   padding-left: .3rem;
