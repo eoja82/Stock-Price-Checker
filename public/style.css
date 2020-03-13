@@ -106,27 +106,39 @@ footer a {
   }
   header {
   padding: 1rem .6rem;
-  text-align: center;
   }
   h1 {
     font-size: 3em;
-    font-weight: bold;
-    color: #086acc;
   }
   h3 {
-    font-size: 1.2em;
-    color: #737373;
+    font-size: 1em;
     margin: 0;
+    padding: 1rem;
     padding-bottom: 1.5rem;
   }
   hr {
+    padding: 1rem;
     margin: 0;
+  }
+  #testui {
+    padding: 0 1.5rem;
+  }
+  #exampleDiv {
+    display: flex;
+    margin: 1rem auto;
+    padding: 0 1.5rem;
+  }
+  #exampleButton {
+    margin-top: 1rem;
+  }
+  #examples {
+    padding: 1rem 0;
   }
   form {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
   }
   footer {
-    padding: 0 .5rem;
+    padding: 0 1rem;
   }
 }
