@@ -125,9 +125,10 @@ module.exports = function (app) {
       var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
+            try {
             console.log("body: " + body)
             if (err) { console.log(err); }
-            else if (body == ) {
+            else if (!body.latestPrice) {
               res.send("please enter a valid stock");
               reject();
             } else {
@@ -138,6 +139,10 @@ module.exports = function (app) {
             } 
           })
         }) // end Promise
+      }
+      catch (err) {
+        console.log("err; " + err)
+      }
     };
     
     var sendResponse = (response) => {
