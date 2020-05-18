@@ -95,8 +95,8 @@ module.exports = function (app) {
        Stock.findOne({stock: stock}, async function(err, doc) {
           if (err) { console.log(err); }
           else if (!doc) { 
-           await addNewStock(stock);   //not in db, add new
-           resolve(); 
+            await addNewStock(stock);   //not in db, add new
+            resolve(); 
           } else if (doc.ip.indexOf(ip) < 0) {    //ip not found
             await updateStockPriceAndLikes(stock);     //and push ip to db
             resolve();
@@ -125,14 +125,16 @@ module.exports = function (app) {
       var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
+            console.log("body: " + body)
             if (err) { console.log(err); }
-            else if (!body) {
+            else if (body == ) {
               res.send("please enter a valid stock");
               reject();
             } else {
-            stockPrice = body["quote"].latestPrice;
-            await handleStock(stock);
-            resolve();
+              console.log("latestPrice: " + body["quote"].latesPrice)
+              stockPrice = body["quote"].latestPrice;
+              await handleStock(stock);
+              resolve();
             } 
           })
         }) // end Promise
