@@ -125,24 +125,20 @@ module.exports = function (app) {
       var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
-            try {
             console.log("body: " + body)
             if (err) { console.log(err); }
-            else if (!body.latestPrice) {
+            else if (!body) {
               res.send("please enter a valid stock");
               reject();
             } else {
-              console.log("latestPrice: " + body["quote"].latesPrice)
+              console.log("latestPrice: " + body["quote"])
               stockPrice = body["quote"].latestPrice;
               await handleStock(stock);
               resolve();
-            } 
+            }
           })
         }) // end Promise
-      }
-      catch (err) {
-        console.log("err; " + err)
-      }
+      //}
     };
     
     var sendResponse = (response) => {
