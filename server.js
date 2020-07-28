@@ -2,7 +2,6 @@
 
 var express     = require('express');
 var bodyParser  = require('body-parser');
-var expect      = require('chai').expect;
 var cors        = require('cors');
 var mongoose    = require('mongoose');
 var apiRoutes         = require('./routes/api.js');
@@ -10,6 +9,7 @@ var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 var helmet            = require('helmet');
 var csp               = require('helmet-csp');
+require('dotenv').config();
 
 var app = express();
 
@@ -37,9 +37,8 @@ app.use(csp({
   },
   browserSniff: false
 }));
-//Index page (static HTML)
 
-mongoose.connect(process.env.DATABASE, {useNewUrlParser: true},
+mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopology: true },
   function(err) {
     if (err) { console.log(err); }
     else { console.log("Connected to db!") };
