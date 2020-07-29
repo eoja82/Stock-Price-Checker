@@ -62,8 +62,7 @@ button[type=submit] {
   padding: .3rem .6rem;
 }
 #oneStock, #twoStocks {
-  padding-top: 1rem;
-  margin-top: 1.5rem;
+  padding-bottom: 1rem;
   display: block;
 }
 #exampleDiv {
