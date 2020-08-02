@@ -86,6 +86,7 @@
             data: $('#testForm').serialize(),
             success: function(data) {
               $('#twoStocks').text(JSON.stringify(data));
+              $('#testForm')[0].reset();
             }
           });
           e.preventDefault();
@@ -97,6 +98,7 @@
             data: $('#testForm2').serialize(),
             success: function(data) {
               $('#oneStock').text(JSON.stringify(data));
+              $('#testForm2')[0].reset();
             }
           });
           e.preventDefault();
