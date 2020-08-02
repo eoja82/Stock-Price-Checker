@@ -1,11 +1,3 @@
-/*
-*
-*
-*       Complete the API routing below
-*
-*
-*/
-
 'use strict';
 
 var mongoose    = require('mongoose');
@@ -38,7 +30,6 @@ module.exports = function (app) {
       var addNewStock = (stock) => {
         return new Promise((resolve, reject) => { 
           var newStock = new Stock({stock: stock, price: stockPrice, likes: like});
-          console.log(newStock);
           newStock.save( (err, doc) => {
             if (err) { 
               console.log(err);
@@ -48,9 +39,7 @@ module.exports = function (app) {
               res.send("Something went wrong.  Please try again.");
               reject(new Error("New stock was not saved"));
             } else {
-              console.log("addNewStock was a success"); 
               responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
-              console.log(responseStock);
               resolve();
             }
           });
@@ -67,14 +56,11 @@ module.exports = function (app) {
               reject(new Error("Error: could not update stock price and likes"));
             }
             else if (!doc) { 
-              console.log("updateStockPriceAndLikes failed"); 
               res.send("Something went wrong.  Please try agin.");
               reject(new Error("Stock price and likes were not updated"));
             }
-            else { 
-              console.log("updateStockPriceAndLikes was a success"); 
+            else {  
               responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
-              console.log(responseStock);
               resolve();
             }
           })
@@ -83,7 +69,6 @@ module.exports = function (app) {
       
       var updateStockPrice = (stock) => {
         return new Promise((resolve, reject) => {
-          console.log("stockPrice = " + stockPrice)
           Stock.findOneAndUpdate({stock: stock}, {price: stockPrice},
                                 {new: true}, function(err, doc) {
             if (err) { 
@@ -91,14 +76,11 @@ module.exports = function (app) {
               res.send("Something went wrong.  Please try agin.");
               reject(new Error("Error: could not update stock price"));
             } else if (!doc) { 
-              console.log("updateStockPrice failed"); 
               res.send("Something went wrong.  Please try agin.");
               reject(new Error("Stock price was not updated"));
             }
             else { 
-              console.log("updateStockPrice was a success");
               responseStock.push({"stock": doc.stock, "price": doc.price, "likes": doc.likes});
-              console.log(responseStock);
               resolve();
             }
           })
@@ -150,7 +132,6 @@ module.exports = function (app) {
         var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
         return new Promise( (resolve, reject) => { 
           request(url, {json: true}, async function(err, resp, body) {
-            console.log("body: " + body)
             if (err) { 
               console.log(err); 
               reject(new Error("Stock Request Error"));
@@ -158,7 +139,6 @@ module.exports = function (app) {
               res.send(`${stock} is not a valid stock symbol.`);
               reject(new Error("Invalid Stock"));
             } else {
-              console.log("latestPrice: " + body["quote"])
               stockPrice = body["quote"].latestPrice;
               await handleStock(stock);
               resolve();
