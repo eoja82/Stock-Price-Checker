@@ -38,10 +38,16 @@ app.use(csp({
   browserSniff: false
 }));
 
-mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopology: true },
-  function(err) {
-    if (err) { console.log(err); }
-    else { console.log("Connected to db!") };
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).
+  catch (err => console.log(err));
+
+mongoose.connection.on("connected", () => {
+  console.log("Connected to database!");
+});
+
+// handle errors after initial connection
+mongoose.connection.on('error', (err) => {
+  console.log(err);
 });
 
 app.route('/')
@@ -64,7 +70,7 @@ app.use(function(req, res, next) {
 
 //Start our server and tests!
 app.listen(process.env.PORT || 3000, function () {
-  console.log("Listening on port " + process.env.PORT);
+  console.log("App is listening");
   if(process.env.NODE_ENV==='test') {
     console.log('Running Tests...');
     setTimeout(function () {
