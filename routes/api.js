@@ -98,13 +98,19 @@ module.exports = function (app) {
                   reject(new Error("Error finding stock with like checked"));
                 }
                 else if (!doc) {     //not in db, add new
-                  await addNewStock(stock);   
+                  await addNewStock(stock).catch( err => {
+                    /////////////// handle err
+                  });   
                   resolve(); 
                 } else if (doc.ip.indexOf(ip) < 0) {    //ip not found
-                  await updateStockPriceAndLikes(stock);     //and push ip to db
+                  await updateStockPriceAndLikes(stock).catch( err => {  //and push ip to db
+                    /////////////// handle err
+                  });     
                   resolve();
                 } else {
-                  await updateStockPrice(stock);
+                  await updateStockPrice(stock).catch( err => {
+                    /////////////// handle err
+                  });
                   resolve();
                 }
               })
@@ -116,10 +122,14 @@ module.exports = function (app) {
                   reject(new Error("Error finding stock"));
                 }
                 else if (!doc) {
-                  await addNewStock(stock);
+                  await addNewStock(stock).catch( err => {
+                    /////////////// handle err
+                  });
                   resolve();
                 } else {
-                  await updateStockPrice(stock);
+                  await updateStockPrice(stock).catch( err => {
+                    /////////////// handle err
+                  });
                   resolve();
                 }
               });
@@ -139,8 +149,14 @@ module.exports = function (app) {
               res.send(`${stock} is not a valid stock symbol.`);
               reject(new Error("Invalid Stock"));
             } else {
-              stockPrice = body["quote"].latestPrice;
-              await handleStock(stock);
+              try {
+                stockPrice = body["quote"].latestPrice;
+              } catch (err) {
+                reject(new Error("Could not get latest price from API"));
+              }
+              await handleStock(stock).catch( err => {
+                /////////////// handle err
+              });
               resolve();
             }
           })
@@ -164,14 +180,20 @@ module.exports = function (app) {
           console.log("stock price1 error: " + err);
           promiseError = err;
         });
-        if (promiseError) return;
+        if (promiseError) {
+          res.send(`Oops! Something went wrong getting a price for ${stock1}.`);
+          return;
+        }
         if (stock2) { 
           await getStockPrice(stock2).catch( err => {
             console.log("stock price2 error: " + err);
             promiseError = err;
           }); 
         }  
-        if (promiseError) return;
+        if (promiseError) {
+          res.send(`Oops! Something went wrong getting a price for ${stock2}.`);
+          return;
+        }
         sendResponse(responseStock);
       })();
                                   
