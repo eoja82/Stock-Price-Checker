@@ -153,13 +153,12 @@ module.exports = function (app) {
               console.log("API request error: " + err); 
               reject(new Error("API Request Error"));
             } else if (body === "Unknown symbol") {
-              //res.send(`${stock} is not a valid stock symbol.`);
-              console.log(`${stock} is not a valid symbol.`)
-              reject(new Error(`${stock} is not a valid symbol.`));
+              resolve(`${stock} is not a valid symbol.`);
             } else {
               try {
                 stockPrice = body["quote"].latestPrice;
               } catch (err) {
+                console.log("stockPrice error: " + err)
                 reject(new Error("Could not get latest price from API"));
               }
               await handleStock(stock).catch( err => {
