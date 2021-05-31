@@ -8,7 +8,7 @@ var apiRoutes         = require('./routes/api.js');
 var fccTestingRoutes  = require('./routes/fcctesting.js');
 var runner            = require('./test-runner');
 var helmet            = require('helmet');
-var csp               = require('helmet-csp');
+var noCache           = require('nocache');
 require('dotenv').config();
 
 var app = express();
@@ -20,22 +20,25 @@ app.use(cors({origin: '*'})); //For FCC testing purposes only
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(noCache());
+
 app.use(helmet());
-app.use(helmet.noCache());
+app.use(helmet.noSniff());
 app.use(helmet.hidePoweredBy({setTo: "PHP 4.2.0"}));
-app.use(csp({
+app.use(helmet.contentSecurityPolicy({
+  useDefaults: true,
   directives: {
     defaultSrc: ["'self'"],
     scriptSrc: ["'self'", 
-                "https://code.jquery.com/jquery-2.2.1.min.js", 
+                "https://code.jquery.com/jquery-2.2.1.min.js",
                 "/public/client.js", 
                 "'unsafe-inline'"],
     styleSrc: ["'self'", 
                "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css",
+               "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css",
                "/public/style.css", 
                "'unsafe-inline'"]
-  },
-  browserSniff: false
+  }
 }));
 
 mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }).
