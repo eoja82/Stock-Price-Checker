@@ -61,9 +61,14 @@ button[type=submit] {
   border-radius: 5px;
   padding: .3rem .6rem;
 }
-#oneStock, #twoStocks {
+.result {
   padding-bottom: 1rem;
-  display: block;
+  display: inline;
+}
+#spinnerOne, #spinnerTwo {
+  font-size: 1.2rem;
+  color: #e83e8c;
+  display: none;
 }
 #exampleDiv {
   display: flex;
