@@ -23,7 +23,7 @@
         <div id="checkOneStock">
           <h5>Check a single stock price and total likes:</h5>
           <div class="formDiv">
-            <form id="testForm2">
+            <form id="testForm1">
               <input type="text" name="stock1" placeholder="goog" class="stock" required="">
               <div class="likeDiv">
                 <input type="checkbox" name="like" value="true"> Like?
@@ -36,7 +36,7 @@
         <div id="checkTwoStocks">
           <h5>Compare two stock prices and their relative likes:</h5>
           <div class="formDiv">
-            <form id="testForm">
+            <form id="testForm2">
               <input type="text" name="stock1" placeholder="goog" class="stock" required="">
               <input type="text" name="stock2" placeholder="msft" class="stock" required="">
               <div class="likeDiv">
@@ -80,14 +80,14 @@
             crossorigin="anonymous"></script>
     <script>
       $(function() {
-        $('#testForm').submit(function(e) {
+        $('#testForm1').submit(function(e) {
           $.ajax({
             url: '/api/stock-prices',
             type: 'get',
-            data: $('#testForm').serialize(),
+            data: $('#testForm1').serialize(),
             success: function(data) {
-              $('#twoStocks').text(JSON.stringify(data));
-              $('#testForm')[0].reset();
+              $('#oneStock').text(JSON.stringify(data));
+              $('#testForm1')[0].reset();
             }
           });
           e.preventDefault();
@@ -98,7 +98,7 @@
             type: 'get',
             data: $('#testForm2').serialize(),
             success: function(data) {
-              $('#oneStock').text(JSON.stringify(data));
+              $('#twoStocks').text(JSON.stringify(data));
               $('#testForm2')[0].reset();
             }
           });
