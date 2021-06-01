@@ -131,36 +131,17 @@ module.exports = function (app) {
         })  
       }; 
       
-      var getStockPrice = (stock) => {  
-        var url = "https://api.iextrading.com/1.0/stock/" + stock + "/book";
-        return new Promise( (resolve, reject) => {  // add async here for testing
-          /* begin test code */
-          /* if (stock === "GOOG") {
-            stockPrice = "2417.64";
-          } else if (stock === "MSFT") {
-            stockPrice = "250.37";
-          } else {
-            resolve(`${stock} is not a valid stock symbol.`);
-          }
-          await handleStock(stock).catch( err => {
-            reject(new Error(err));
-          });
-          resolve(); */
-          /* end test code */
-
-          request(url, {json: true}, async function(err, resp, body) {
+      var getStockPrice = (stock) => {
+        var url = `https://cloud.iexapis.com/stable/stock/${stock}/quote?token=${process.env.IEX_API_KEY}`;
+        return new Promise( (resolve, reject) => {
+            request(url, {json: true}, async function(err, resp, body) {
             if (err) { 
               console.log("API request error: " + err); 
               reject(new Error("API Request Error"));
-            } else if (body === "Unknown symbol") {
+            } else if (!body.latestPrice) {
               resolve(`${stock} is not a valid symbol.`);
             } else {
-              try {
-                stockPrice = body["quote"].latestPrice;
-              } catch (err) {
-                console.log("stockPrice error: " + err)
-                reject(new Error("Could not get latest price from API"));
-              }
+              stockPrice = body.latestPrice;
               await handleStock(stock).catch( err => {
                 reject(new Error(err));
               });
@@ -175,7 +156,7 @@ module.exports = function (app) {
           var likes0 = response[0].likes - response[1].likes;   //compare relative likes
           var likes1 = response[1].likes - response[0].likes;
           res.json({"stockData": [{"stock": response[0].stock, "price": response[0].price, "rel_likes": likes0},
-                                {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
+                                  {"stock": response[1].stock, "price": response[1].price, "rel_likes": likes1}]});
         } else {
           res.json({"stockData": response});
         };
