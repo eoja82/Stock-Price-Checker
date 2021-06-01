@@ -35,6 +35,7 @@
         <div class="result">
           <code id="oneStock"></code>
           <i id="spinnerOne" class="fa fa-spinner fa-spin"></i>
+          <a id="sourceOne" href="https://iexcloud.io" target="_blank" referrerpolicy="no-referrer">IEX Cloud</a>
         </div>
         <div id="checkTwoStocks">
           <h5>Compare two stock prices and their relative likes:</h5>
@@ -52,6 +53,7 @@
         <div class="result">
           <code id="twoStocks"></code>
           <i id="spinnerTwo" class="fa fa-spinner fa-spin"></i>
+          <a id="sourceTwo" href="https://iexcloud.io" target="_blank" referrerpolicy="no-referrer">IEX Cloud</a>
         </div>
       </div>
     </main>
@@ -73,10 +75,7 @@
     </div>
     
     <footer>
-       <p>
-        Data provided for free by <a href="https://iextrading.com/developer/">IEX</a>.
-        View <a href="https://iextrading.com/api-exhibit-a/">IEX's Terms of Use</a>.
-        </p>
+      <a href="https://iexcloud.io" target="_blank" referrerpolicy="no-referrer">Data provided by IEX Cloud.</a>
     </footer>
     
    
@@ -88,6 +87,7 @@
       $(function() {
         $('#testForm1').submit(function(e) {
           $('#oneStock').text('');
+          $('#sourceOne').css({'display': 'none'});
           $('#spinnerOne').css({'display': 'inline-block'});
           $.ajax({
             url: '/api/stock-prices',
@@ -96,13 +96,15 @@
             success: function(data) {
               $('#spinnerOne').css({'display': 'none'});
               $('#oneStock').text(JSON.stringify(data));
+              $('#sourceOne').css({'display': 'block'});
               $('#testForm1')[0].reset();
             }
           });
           e.preventDefault();
         });
         $('#testForm2').submit(function(e) {
-          $('#twoStocks').text('')
+          $('#twoStocks').text('');
+          $('#sourceTwo').css({'display': 'none'});
           $('#spinnerTwo').css({'display': 'inline-block'});
           $.ajax({
             url: '/api/stock-prices',
@@ -111,6 +113,7 @@
             success: function(data) {
               $('#spinnerTwo').css({'display': 'none'});
               $('#twoStocks').text(JSON.stringify(data));
+              $('#sourceTwo').css({'display': 'block'});
               $('#testForm2')[0].reset();
             }
           });
