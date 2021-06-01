@@ -84,51 +84,29 @@ module.exports = function (app) {
         
       var handleStock = (stock) => {
         return new Promise((resolve, reject) => {
-          if (stock) {
-            if (ip) {       // like is checked
-              Stock.findOne({stock: stock}, async function(err, doc) {
-                if (err) { 
-                  console.log(`Error finding stock ${stock} with like checked in handleStock func: ` + err);
-                  reject(new Error(`Finding stock ${stock} with like checked in handleStock func.`));
-                }
-                else if (!doc) {     //not in db, add new
-                  await addNewStock(stock).catch( err => {
-                    reject(new Error(err));
-                  });   
-                  resolve(); 
-                } else if (doc.ip.indexOf(ip) < 0) {    //ip not found
-                  await updateStockPriceAndLikes(stock).catch( err => {  //and push ip to db
-                    reject(new Error(err));
-                  });     
-                  resolve();
-                } else {
-                  await updateStockPrice(stock).catch( err => {
-                    reject(new Error(err));
-                  });
-                  resolve();
-                }
-              })
-            } else {   //like is not checked
-              Stock.findOne({stock: stock}, async function(err, doc) {
-                if (err) { 
-                  console.log(`Error finding stock ${stock} in handleStock func: ` + err); 
-                  reject(new Error(`Error finding stock ${stock} in handleStock func.`));
-                }
-                else if (!doc) {
-                  await addNewStock(stock).catch( err => {
-                    reject(new Error(err));
-                  });
-                  resolve();
-                } else {
-                  await updateStockPrice(stock).catch( err => {
-                    reject(new Error(err));
-                  });
-                  resolve();
-                }
-              });
+          Stock.findOne({stock: stock}, async function(err, doc) {
+            if (err) { 
+              console.log(`Error finding stock ${stock} in handleStock func: ` + err);
+              reject(new Error(`Finding stock ${stock} in handleStock func.`));
             }
-          };
-        })  
+            else if (!doc) {     //not in db, add new
+              await addNewStock(stock).catch( err => {
+                reject(new Error(err));
+              });   
+              resolve(); 
+            } else if (doc.ip.indexOf(ip) < 0) {    //ip not found
+              await updateStockPriceAndLikes(stock).catch( err => {  //and push ip to db
+                reject(new Error(err));
+              });     
+              resolve();
+            } else {
+              await updateStockPrice(stock).catch( err => {
+                reject(new Error(err));
+              });
+              resolve();
+            }
+          });
+        });  
       }; 
       
       var getStockPrice = (stock) => {
