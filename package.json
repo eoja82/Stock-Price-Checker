@@ -16,7 +16,7 @@
 		"helmet": "^4.6.0",
 		"mocha": "^10.1.0",
 		"mongodb": "^3.5.9",
-		"mongoose": "^5.9.26",
+		"mongoose": "^5.13.15",
 		"nocache": "^2.1.0",
 		"request": "^2.88.2",
 		"shortid": "^2.2.15",
